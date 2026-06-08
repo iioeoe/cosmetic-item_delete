@@ -8,7 +8,7 @@
 <style>
   :root {
     --bg: #fffafa;
-    --app-bg: #f3e5dd;
+    --app-bg: #f5ece3;
     --card: #ffffff;
     --accent: #EBA5A7;
     --accent-dark: #d48a8c;
@@ -21,11 +21,11 @@
     --radius: 10px;
     --tag-bg: #fde8ed;
     --tag-text: #c0606a;
-    --in-use-bg: #e8f7e8;
-    --in-use-text: #3a8040;
+    --in-use-bg: #c2deea;
+    --in-use-text: #9ac1d2;
     --expired-bg: #fdeaea;
     --expired-text: #b04040;
-    --soon-text: #c06030;
+    --soon-text: #ffca3c;
     --app-width: 480px;
   }
 
@@ -111,36 +111,43 @@
   .top-block-body {
     background: #FDEAEA;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 7px;
     padding: 8px;
   }
   .top-block-body .sum-cell {
     text-align: center;
-    background: #FFE4E1;
     border-radius: 8px;
     overflow: hidden;
     border: 1.5px solid #FFD6EF;
   }
   .sum-cell .s-label {
-    font-size: 0.65rem;
+    font-size: 0.72rem;
     font-weight: 800;
     color: #fff;
     background: #EBA5A7;
-    padding: 6px 4px;
+    padding: 5px 4px;
     display: block;
   }
+  /* 개별 라벨 색상 */
+  .sum-cell.cell-stock  .s-label { background: #c682b1; }
+  .sum-cell.cell-total  .s-label { background: #EBA5A7; }
+  .sum-cell.cell-inuse  .s-label { background: #9ac1d2; }
+  .sum-cell.cell-soon   .s-label { background: #f0c060; }
+
   .sum-cell .s-num {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     font-weight: 800;
     color: var(--text);
     line-height: 1;
     padding: 8px 4px;
     display: block;
-    background: #FFE4E1;
   }
-  .sum-cell .s-num.green  { color: #3a8040; }
-  .sum-cell .s-num.orange { color: #c06030; }
+  /* 개별 숫자 배경색 */
+  .sum-cell.cell-stock .s-num { background: #ecc0de; color: #c682b1; }
+  .sum-cell.cell-total .s-num { background: #FFE4E1; color: var(--text); }
+  .sum-cell.cell-inuse .s-num { background: #c2deea; color: #9ac1d2; }
+  .sum-cell.cell-soon  .s-num { background: #fff8e0; color: #c09020; }
 
   /* 브랜드 탭 (pill 형태 독립 행) */
   .brand-tab-wrap {
@@ -217,8 +224,8 @@
     gap: 7px;
   }
   .stock-pill {
-    background: rgba(255,255,255,0.25);
-    color: #fff;
+    background: #ecc0de;
+    color: #c682b1;
     border-radius: 10px;
     font-size: 0.7rem;
     font-weight: 700;
@@ -619,10 +626,12 @@ function renderSummary() {
     const diff = (new Date(i.expDate) - td) / 86400000;
     return diff >= 0 && diff <= 30;
   }).length;
+  const inStock = data.items.filter(i => i.status === 'in-stock').length;
   document.getElementById('summaryBar').innerHTML = `
-    <div class="sum-cell"><div class="s-label">전체 아이템</div><div class="s-num">${total}</div></div>
-    <div class="sum-cell"><div class="s-label">사용중</div><div class="s-num green">${inUse}</div></div>
-    <div class="sum-cell"><div class="s-label">만료임박(30일)</div><div class="s-num ${soon>0?'orange':''}">${soon}</div></div>`;
+    <div class="sum-cell cell-stock"><div class="s-label">재고</div><div class="s-num">${inStock}</div></div>
+    <div class="sum-cell cell-total"><div class="s-label">전체</div><div class="s-num">${total}</div></div>
+    <div class="sum-cell cell-inuse"><div class="s-label">사용중</div><div class="s-num">${inUse}</div></div>
+    <div class="sum-cell cell-soon"><div class="s-label">만료임박</div><div class="s-num">${soon}</div></div>`;
 }
 
 function renderTabs() {
@@ -692,7 +701,7 @@ function renderPanel() {
       <div class="product-block-header" onclick="toggleGroup(this)">
         <div class="pname">
           ${product}
-          <span class="stock-pill">잔여 ${stockNum}개</span>
+          <span class="stock-pill">재고 ${stockNum}개</span>
           ${inUse>0 ? `<span class="inuse-pill">사용중 ${inUse}</span>` : ''}
         </div>
         <span class="chevron open">▼</span>
