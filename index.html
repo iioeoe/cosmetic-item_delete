@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title> 화장품 재고 관리</title>
+<title>💄 화장품 재고 관리</title>
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #fefefe;
-    --app-bg: #f0f0f0;
+    --app-bg: #fdf3f3;
     --card: #ffffff;
     --accent: #EBA5A7;
     --accent-dark: #d48a8c;
@@ -55,24 +55,6 @@
     overflow-x: hidden;
   }
 
-  /* 헤더 */
-  header {
-    background: var(--accent);
-    color: #fff;
-    padding: 18px 16px 14px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 2px 8px rgba(200,120,120,0.18);
-  }
-  header h1 { font-size: 1.1rem; font-weight: 800; letter-spacing: -0.3px; }
-  header p  { font-size: 0.72rem; opacity: 0.88; margin-top: 1px; }
-  .header-left { display: flex; flex-direction: column; }
-  .header-btns { display: flex; gap: 6px; }
-
   /* 버튼 공통 */
   .btn {
     background: var(--accent);
@@ -92,11 +74,11 @@
   .btn:active { transform: scale(0.96); background: var(--accent-dark); }
   .btn:hover  { background: var(--accent-dark); }
   .btn.ghost {
-    background: rgba(255,255,255,0.22);
-    color: #fff;
-    border: 1.5px solid rgba(255,255,255,0.5);
+    background: rgba(235,165,167,0.15);
+    color: var(--accent-dark);
+    border: 1.5px solid #EBA5A7;
   }
-  .btn.ghost:hover { background: rgba(255,255,255,0.35); }
+  .btn.ghost:hover { background: rgba(235,165,167,0.3); }
   .btn.white {
     background: #fff;
     color: var(--accent);
@@ -105,48 +87,69 @@
   .btn.white:hover { background: var(--tag-bg); }
   .btn.sm { padding: 5px 10px; font-size: 0.75rem; }
 
-  /* 요약 블럭 */
-  .summary-section {
-    padding: 12px 12px 0;
+  /* 상단 통합 블럭 (타이틀 + 요약) */
+  .top-block {
+    margin: 12px 12px 0;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 2px solid #FFD6EF;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.07);
+  }
+  .top-block-header {
+    background: #FFE4E1;
+    color: var(--text);
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid #FFD6EF;
+  }
+  .top-block-header h1 { font-size: 1.05rem; font-weight: 800; letter-spacing: -0.3px; color: var(--text); }
+  .top-block-header p  { font-size: 0.7rem; color: var(--text2); margin-top: 2px; }
+  .top-block-header .header-left { display: flex; flex-direction: column; }
+  .top-block-header .header-btns { display: flex; gap: 6px; }
+  .top-block-body {
+    background: #EBA5A7;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 8px;
+    padding: 8px;
   }
-  .summary-block {
-    border-radius: var(--radius);
+  .top-block-body .sum-cell {
+    text-align: center;
+    background: #FFE4E1;
+    border-radius: 8px;
     overflow: hidden;
-    border: 1px solid var(--border);
-    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    border: 1.5px solid #FFD6EF;
   }
-  .summary-block .blk-title {
-    background: var(--accent);
-    color: #fff;
-    font-size: 0.68rem;
+  .sum-cell .s-label {
+    font-size: 0.65rem;
     font-weight: 800;
-    padding: 5px 8px;
-    text-align: center;
+    color: #fff;
+    background: #EBA5A7;
+    padding: 4px 4px;
+    display: block;
   }
-  .summary-block .blk-body {
-    background: var(--card);
-    padding: 8px 6px;
-    text-align: center;
-  }
-  .summary-block .blk-num {
-    font-size: 1.3rem;
+  .sum-cell .s-num {
+    font-size: 1.25rem;
     font-weight: 800;
     color: var(--text);
     line-height: 1;
+    padding: 8px 4px;
+    display: block;
+    background: #FFE4E1;
   }
-  .summary-block .blk-num.green { color: #3a8040; }
-  .summary-block .blk-num.orange { color: #c06030; }
+  .sum-cell .s-num.green  { color: #3a8040; }
+  .sum-cell .s-num.orange { color: #c06030; }
 
-  /* 브랜드 탭 */
+  /* 브랜드 탭 (pill 형태 독립 행) */
   .brand-tab-wrap {
-    padding: 12px 12px 0;
+    margin: 10px 12px 0;
     display: flex;
     gap: 6px;
     overflow-x: auto;
     scrollbar-width: none;
+    padding-bottom: 2px;
   }
   .brand-tab-wrap::-webkit-scrollbar { display: none; }
   .brand-tab {
@@ -167,17 +170,24 @@
     border-color: var(--accent);
   }
   .brand-tab .cnt {
-    display: inline-block;
     font-size: 0.68rem;
     margin-left: 3px;
     opacity: 0.75;
   }
 
-  /* 메인 콘텐츠 */
-  .content {
-    padding: 10px 12px 60px;
-    flex: 1;
+  /* 리스트 패널 */
+  .list-block {
+    margin: 8px 12px 24px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+    background: var(--bg);
+    padding: 10px;
   }
+  .list-block-header { display: none; }
+  .list-block-title  { display: none; }
+  .list-block-body   { background: transparent; padding: 0; }
 
   /* 상품 그룹 블럭 */
   .product-block {
@@ -358,7 +368,6 @@
     width: 100%;
     max-width: var(--app-width);
     box-shadow: 0 -4px 30px rgba(0,0,0,0.15);
-    max-height: 90vh;
     overflow-y: auto;
   }
   .modal-handle {
@@ -444,7 +453,9 @@
 <body>
 <div id="app">
 
-  <header>
+<!-- 상단 블럭: 타이틀 + 요약 -->
+<div class="top-block">
+  <div class="top-block-header">
     <div class="header-left">
       <h1>💄 화장품 재고 관리</h1>
       <p>구매내역 · 사용기록 · 잔여재고</p>
@@ -453,13 +464,17 @@
       <button class="btn ghost sm" onclick="openManageBrands()">🏷️ 브랜드</button>
       <button class="btn ghost sm" onclick="openAddModal()">＋ 추가</button>
     </div>
-  </header>
+  </div>
+  <div class="top-block-body" id="summaryBar"></div>
+</div>
 
-  <div class="summary-section" id="summaryBar"></div>
+<!-- 브랜드 탭 (독립 pill 행) -->
+<div class="brand-tab-wrap" id="brandTabs"></div>
 
-  <div class="brand-tab-wrap" id="brandTabs"></div>
-
-  <div class="content" id="mainPanel"></div>
+<!-- 리스트 패널 -->
+<div class="list-block">
+  <div class="list-block-body" id="mainPanel"></div>
+</div>
 
 </div><!-- /#app -->
 
@@ -605,18 +620,9 @@ function renderSummary() {
     return diff >= 0 && diff <= 30;
   }).length;
   document.getElementById('summaryBar').innerHTML = `
-    <div class="summary-block">
-      <div class="blk-title">전체 아이템</div>
-      <div class="blk-body"><div class="blk-num">${total}</div></div>
-    </div>
-    <div class="summary-block">
-      <div class="blk-title">사용중</div>
-      <div class="blk-body"><div class="blk-num green">${inUse}</div></div>
-    </div>
-    <div class="summary-block">
-      <div class="blk-title">만료임박</div>
-      <div class="blk-body"><div class="blk-num ${soon>0?'orange':''}">${soon}</div></div>
-    </div>`;
+    <div class="sum-cell"><div class="s-label">전체 아이템</div><div class="s-num">${total}</div></div>
+    <div class="sum-cell"><div class="s-label">사용중</div><div class="s-num green">${inUse}</div></div>
+    <div class="sum-cell"><div class="s-label">만료임박(30일)</div><div class="s-num ${soon>0?'orange':''}">${soon}</div></div>`;
 }
 
 function renderTabs() {
