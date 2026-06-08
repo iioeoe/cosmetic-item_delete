@@ -31,7 +31,6 @@
 
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
-  /* PC에서 모바일 컨테이너 */
   html, body {
     height: 100%;
     font-family: 'Nanum Gothic', sans-serif;
@@ -55,7 +54,6 @@
     overflow-x: hidden;
   }
 
-  /* 버튼 공통 */
   .btn {
     background: var(--accent);
     color: #fff;
@@ -87,7 +85,6 @@
   .btn.white:hover { background: var(--tag-bg); }
   .btn.sm { padding: 5px 10px; font-size: 0.75rem; }
 
-  /* 상단 통합 블럭 (타이틀 + 요약) */
   .top-block {
     margin: 12px 12px 0;
     border-radius: var(--radius);
@@ -129,27 +126,22 @@
     padding: 5px 4px;
     display: block;
   }
-  /* 개별 라벨 색상 */
   .sum-cell.cell-stock  .s-label { background: #c682b1; }
   .sum-cell.cell-total  .s-label { background: #EBA5A7; }
   .sum-cell.cell-inuse  .s-label { background: #7ab6d0; }
   .sum-cell.cell-soon   .s-label { background: #f8c86a; }
-
   .sum-cell .s-num {
     font-size: 1.2rem;
     font-weight: 800;
-    color: var(--text);
     line-height: 1;
     padding: 8px 4px;
     display: block;
   }
-  /* 개별 숫자 배경색 */
   .sum-cell.cell-stock .s-num { background: #f6d3eb; color: #c682b1; }
   .sum-cell.cell-total .s-num { background: #fee3e3; color: #f4aaab; }
   .sum-cell.cell-inuse .s-num { background: #d0e7f2; color: #7ab6d0; }
   .sum-cell.cell-soon  .s-num { background: #fceccc; color: #f8c86a; }
 
-  /* 브랜드 탭 (pill 형태 독립 행) */
   .brand-tab-wrap {
     margin: 10px 12px 0;
     display: flex;
@@ -176,13 +168,8 @@
     color: #fff;
     border-color: var(--accent);
   }
-  .brand-tab .cnt {
-    font-size: 0.68rem;
-    margin-left: 3px;
-    opacity: 0.75;
-  }
+  .brand-tab .cnt { font-size: 0.68rem; margin-left: 3px; opacity: 0.75; }
 
-  /* 리스트 패널 */
   .list-block {
     margin: 8px 12px 24px;
     border-radius: var(--radius);
@@ -196,7 +183,6 @@
   .list-block-title  { display: none; }
   .list-block-body   { background: transparent; padding: 0; }
 
-  /* 상품 그룹 블럭 */
   .product-block {
     border-radius: var(--radius);
     overflow: hidden;
@@ -204,8 +190,6 @@
     margin-bottom: 10px;
     box-shadow: 0 1px 6px rgba(0,0,0,0.06);
   }
-
-  /* 블럭 타이틀바 */
   .product-block-header {
     background: var(--accent);
     color: #fff;
@@ -243,19 +227,10 @@
   .chevron { font-size: 0.75rem; opacity: 0.8; transition: transform 0.2s; }
   .chevron.open { transform: rotate(180deg); }
 
-  /* 구매 아이템 리스트 */
-  .purchase-list {
-    background: var(--card);
-  }
-
-  /* 구매 아이템 */
-  .purchase-item {
-    border-bottom: 1px solid var(--border);
-    overflow: hidden;
-  }
+  .purchase-list { background: var(--card); }
+  .purchase-item { border-bottom: 1px solid var(--border); overflow: hidden; }
   .purchase-item:last-child { border-bottom: none; }
 
-  /* 아이템 내부: 라벨행 + 내용행 */
   .item-label-row {
     background: #f8f8f8;
     display: grid;
@@ -295,7 +270,6 @@
     padding: 5px 6px;
   }
 
-  /* 상태 태그 */
   .stag {
     display: inline-block;
     font-size: 0.66rem;
@@ -308,7 +282,6 @@
   .stag.used     { background: #f0f0f0; color: #999; }
   .stag.expired  { background: var(--expired-bg); color: var(--expired-text); }
 
-  /* 유효기간 표시 */
   .exp-row {
     background: #fafafa;
     border-top: 1px solid var(--border);
@@ -322,7 +295,6 @@
   .exp-row.soon    { background: #fff8f0; color: var(--soon-text); font-weight: 700; }
   .exp-row.expired { background: #fff0f0; color: var(--expired-text); font-weight: 700; }
 
-  /* 아이콘 버튼 */
   .icon-btn {
     background: none;
     border: none;
@@ -347,8 +319,21 @@
     transition: background 0.12s;
   }
   .open-btn:hover { background: var(--accent-dark); }
+  /* 사용완료 버튼 */
+  .done-btn {
+    font-size: 0.68rem;
+    font-weight: 700;
+    background: #f0f0f0;
+    color: #888;
+    border: none;
+    border-radius: 6px;
+    padding: 3px 7px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.12s;
+  }
+  .done-btn:hover { background: #e0e0e0; }
 
-  /* 빈 상태 */
   .empty-state {
     text-align: center;
     padding: 50px 20px;
@@ -357,7 +342,6 @@
   }
   .empty-state .icon { font-size: 2.2rem; margin-bottom: 10px; }
 
-  /* 모달 */
   .modal-overlay {
     display: none;
     position: fixed;
@@ -392,7 +376,6 @@
     align-items: center;
     gap: 6px;
   }
-  /* 모달 내 블럭 스타일 폼 */
   .form-block {
     border-radius: var(--radius);
     overflow: hidden;
@@ -406,17 +389,10 @@
     font-weight: 800;
     padding: 5px 10px;
   }
-  .form-block-body {
-    background: #fff;
-    padding: 10px;
-  }
+  .form-block-body { background: #fff; padding: 10px; }
   .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   .form-group { display: flex; flex-direction: column; gap: 3px; }
-  .form-group label {
-    font-size: 0.72rem;
-    font-weight: 700;
-    color: var(--text2);
-  }
+  .form-group label { font-size: 0.72rem; font-weight: 700; color: var(--text2); }
   .form-group input,
   .form-group select {
     padding: 8px 10px;
@@ -438,7 +414,6 @@
     justify-content: flex-end;
   }
 
-  /* 브랜드 관리 리스트 */
   .brand-manage-item {
     display: flex;
     align-items: center;
@@ -460,7 +435,6 @@
 <body>
 <div id="app">
 
-<!-- 상단 블럭: 타이틀 + 요약 -->
 <div class="top-block">
   <div class="top-block-header">
     <div class="header-left">
@@ -475,22 +449,19 @@
   <div class="top-block-body" id="summaryBar"></div>
 </div>
 
-<!-- 브랜드 탭 (독립 pill 행) -->
 <div class="brand-tab-wrap" id="brandTabs"></div>
 
-<!-- 리스트 패널 -->
 <div class="list-block">
   <div class="list-block-body" id="mainPanel"></div>
 </div>
 
-</div><!-- /#app -->
+</div>
 
 <!-- 구매 추가/수정 모달 -->
 <div class="modal-overlay" id="addModal">
   <div class="modal">
     <div class="modal-handle"></div>
     <h2 id="addModalTitle">🛒 구매 내역 추가</h2>
-
     <div class="form-block">
       <div class="form-block-title">기본 정보</div>
       <div class="form-block-body">
@@ -504,7 +475,6 @@
         </div>
       </div>
     </div>
-
     <div class="form-block">
       <div class="form-block-title">구매 정보</div>
       <div class="form-block-body">
@@ -520,7 +490,6 @@
         </div>
       </div>
     </div>
-
     <div class="form-block">
       <div class="form-block-title">유효기간 · 메모</div>
       <div class="form-block-body">
@@ -534,7 +503,6 @@
         </div>
       </div>
     </div>
-
     <div class="modal-actions">
       <button class="btn white" onclick="closeModal('addModal')">취소</button>
       <button class="btn" onclick="saveItem()">저장</button>
@@ -562,7 +530,7 @@
   </div>
 </div>
 
-<!-- 개봉(사용) 기록 모달 -->
+<!-- 개봉 기록 모달 -->
 <div class="modal-overlay" id="useModal">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -585,6 +553,33 @@
     <div class="modal-actions">
       <button class="btn white" onclick="closeModal('useModal')">취소</button>
       <button class="btn" onclick="confirmUse()">확인</button>
+    </div>
+  </div>
+</div>
+
+<!-- 사용완료 확인 모달 -->
+<div class="modal-overlay" id="doneModal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h2>🎉 사용완료</h2>
+    <div class="form-block">
+      <div class="form-block-title">상품 정보</div>
+      <div class="form-block-body">
+        <p style="font-size:0.85rem;color:var(--text2);" id="doneModalDesc"></p>
+      </div>
+    </div>
+    <div class="form-block">
+      <div class="form-block-title">사용완료일</div>
+      <div class="form-block-body">
+        <div class="form-group">
+          <label>완료일</label>
+          <input type="text" id="inp_doneDate" placeholder="YYYY-MM-DD" maxlength="10">
+        </div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn white" onclick="closeModal('doneModal')">취소</button>
+      <button class="btn" onclick="confirmDone()">완료 처리</button>
     </div>
   </div>
 </div>
@@ -613,20 +608,20 @@ let data = loadData();
 let currentBrand = data.brands[0] || '';
 let editItemId = null;
 let useItemId = null;
+let doneItemId = null;
 
-// ── 렌더 ─────────────────────────────────────
 function render() { renderSummary(); renderTabs(); renderPanel(); }
 
 function renderSummary() {
-  const total = data.items.length;
-  const inUse = data.items.filter(i => i.status === 'in-use').length;
+  const total   = data.items.length;
+  const inStock = data.items.filter(i => i.status === 'in-stock').length; // 재고 = 미개봉
+  const inUse   = data.items.filter(i => i.status === 'in-use').length;
   const td = new Date(); td.setHours(0,0,0,0);
   const soon = data.items.filter(i => {
     if (!i.expDate || i.status === 'used') return false;
     const diff = (new Date(i.expDate) - td) / 86400000;
     return diff >= 0 && diff <= 30;
   }).length;
-  const inStock = data.items.filter(i => i.status === 'in-stock').length;
   document.getElementById('summaryBar').innerHTML = `
     <div class="sum-cell cell-stock"><div class="s-label">재고</div><div class="s-num">${inStock}</div></div>
     <div class="sum-cell cell-total"><div class="s-label">전체</div><div class="s-num">${total}</div></div>
@@ -650,6 +645,7 @@ function renderPanel() {
     el.innerHTML = `<div class="empty-state"><div class="icon">💄</div>등록된 상품이 없습니다.<br><br><button class="btn" onclick="openAddModal()">＋ 첫 상품 추가</button></div>`;
     return;
   }
+
   const groups = {};
   items.forEach(it => { if (!groups[it.product]) groups[it.product]=[]; groups[it.product].push(it); });
   const td = new Date(); td.setHours(0,0,0,0);
@@ -659,20 +655,35 @@ function renderPanel() {
     const inUse   = list.filter(i=>i.status==='in-use').length;
     const stockNum = inStock + inUse;
 
-    const itemsHtml = list.sort((a,b)=>new Date(b.buyDate)-new Date(a.buyDate)).map(item => {
+    // 정렬: 구매일자 오름차순 → 유효기간 오름차순
+    const sorted = list.slice().sort((a, b) => {
+      const buyDiff = new Date(a.buyDate) - new Date(b.buyDate);
+      if (buyDiff !== 0) return buyDiff;
+      const aExp = a.expDate ? new Date(a.expDate) : new Date('9999-12-31');
+      const bExp = b.expDate ? new Date(b.expDate) : new Date('9999-12-31');
+      return aExp - bExp;
+    });
+
+    const itemsHtml = sorted.map(item => {
       const expD = item.expDate ? new Date(item.expDate) : null;
       const diff = expD ? (expD - td) / 86400000 : 999;
       let expClass='', expLabel='';
       if (expD) {
-        if (diff < 0)       { expClass='expired'; expLabel='⚠️ 기한 만료'; }
-        else if (diff <= 30){ expClass='soon';    expLabel=`⚠️ D-${Math.ceil(diff)} 만료임박`; }
-        else                { expLabel=`유효기간: ${item.expDate}`; }
+        if (diff < 0)        { expClass='expired'; expLabel='⚠️ 기한 만료'; }
+        else if (diff <= 30) { expClass='soon';    expLabel=`⚠️ D-${Math.ceil(diff)} 만료임박`; }
+        else                 { expLabel=`유효기간: ${item.expDate}`; }
       }
       const sMap = { 'in-use':'사용중', 'in-stock':'미개봉', 'used':'사용완료', 'expired':'기한만료' };
       const statusLabel = sMap[item.status] || '';
+      const useInfo = item.useDate ? `<span style="font-size:0.65rem;color:var(--text2);">개봉 ${item.useDate}</span>` : '';
 
-      const openBtn  = item.status==='in-stock' ? `<button class="open-btn" onclick="openUseModal(${item.id})">개봉</button>` : '';
-      const useInfo  = item.useDate ? `<span style="font-size:0.65rem;color:var(--text2);">개봉 ${item.useDate}</span>` : '';
+      // 관리 버튼: 미개봉→개봉버튼 / 사용중→사용완료버튼 / 나머지→없음
+      let actionBtn = '';
+      if (item.status === 'in-stock') {
+        actionBtn = `<button class="open-btn" onclick="openUseModal(${item.id})">개봉</button>`;
+      } else if (item.status === 'in-use') {
+        actionBtn = `<button class="done-btn" onclick="openDoneModal(${item.id})">완료</button>`;
+      }
 
       return `<div class="purchase-item">
         <div class="item-label-row">
@@ -686,7 +697,7 @@ function renderPanel() {
             ${useInfo}
           </div>
           <div class="cell actions">
-            ${openBtn}
+            ${actionBtn}
             <div style="display:flex;gap:2px;">
               <button class="icon-btn" onclick="openEditModal(${item.id})">✏️</button>
               <button class="icon-btn" onclick="deleteItem(${item.id})">🗑️</button>
@@ -762,11 +773,11 @@ function openEditModal(id) {
   const item = data.items.find(i=>i.id===id); if (!item) return;
   document.getElementById('addModalTitle').textContent = '✏️ 내역 수정';
   populateBrandSelect(item.brand);
-  document.getElementById('inp_product').value  = item.product;
-  document.getElementById('inp_buyDate').value  = item.buyDate;
-  document.getElementById('inp_price').value    = item.price||'';
-  document.getElementById('inp_expDate').value  = item.expDate||'';
-  document.getElementById('inp_memo').value     = item.memo||'';
+  document.getElementById('inp_product').value = item.product;
+  document.getElementById('inp_buyDate').value = item.buyDate;
+  document.getElementById('inp_price').value   = item.price||'';
+  document.getElementById('inp_expDate').value = item.expDate||'';
+  document.getElementById('inp_memo').value    = item.memo||'';
   document.getElementById('addModal').classList.add('open');
 }
 function populateBrandSelect(selected) {
@@ -810,6 +821,22 @@ function confirmUse() {
   saveData(data); closeModal('useModal'); render();
 }
 
+// ── 사용완료 ──────────────────────────────────────
+function openDoneModal(id) {
+  doneItemId = id;
+  const item = data.items.find(i=>i.id===id);
+  document.getElementById('doneModalDesc').textContent = `${item.brand} · ${item.product} (개봉: ${item.useDate||'-'})`;
+  document.getElementById('inp_doneDate').value = todayStr();
+  document.getElementById('doneModal').classList.add('open');
+}
+function confirmDone() {
+  const doneDate = document.getElementById('inp_doneDate').value;
+  if (!doneDate) { alert('날짜를 입력해 주세요.'); return; }
+  const item = data.items.find(i=>i.id===doneItemId);
+  item.doneDate=doneDate; item.status='used';
+  saveData(data); closeModal('doneModal'); render();
+}
+
 // ── 삭제 ──────────────────────────────────────
 function deleteItem(id) {
   if (!confirm('삭제하시겠습니까?')) return;
@@ -826,12 +853,11 @@ function applyDateFmt(input) {
   });
 }
 function initDateInputs() {
-  ['inp_buyDate','inp_expDate','inp_useDate'].forEach(id=>{
+  ['inp_buyDate','inp_expDate','inp_useDate','inp_doneDate'].forEach(id=>{
     const el=document.getElementById(id); if(el) applyDateFmt(el);
   });
 }
 
-// ── 유틸 ──────────────────────────────────────
 function todayStr() { return new Date().toISOString().slice(0,10); }
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 document.querySelectorAll('.modal-overlay').forEach(el=>{
