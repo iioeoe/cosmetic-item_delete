@@ -2,242 +2,334 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>💄 화장품 재고 관리</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title> 화장품 재고 관리</title>
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #fefefe;
-    --card: #fff8f7;
-    --accent: #d4607a;
-    --accent2: #e8a0b0;
-    --accent3: #f7c5d0;
+    --app-bg: #f0f0f0;
+    --card: #ffffff;
+    --accent: #EBA5A7;
+    --accent-dark: #d48a8c;
+    --accent-light: #f7d5d6;
     --text: #3f3f3f;
     --text2: #5a5959;
-    --border: #f0c8d0;
-    --shadow: 0 2px 12px rgba(180,80,100,0.10);
-    --radius: 14px;
-    --tab-active: #d4607a;
+    --border: #e8e8e8;
+    --block-header: #EBA5A7;
+    --block-header-text: #ffffff;
+    --radius: 10px;
     --tag-bg: #fde8ed;
-    --tag-text: #b04060;
-    --in-use: #e8f7e8;
+    --tag-text: #c0606a;
+    --in-use-bg: #e8f7e8;
     --in-use-text: #3a8040;
-    --expired: #fdeaea;
+    --expired-bg: #fdeaea;
     --expired-text: #b04040;
+    --soon-text: #c06030;
+    --app-width: 390px;
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  /* PC에서 모바일 컨테이너 */
+  html, body {
+    height: 100%;
+    font-family: 'Nanum Gothic', sans-serif;
+    background: var(--app-bg);
+  }
   body {
-    font-family: 'Nanum Gothic', sans-serif;
-    background: var(--bg);
-    color: var(--text);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  #app {
+    width: 100%;
+    max-width: var(--app-width);
     min-height: 100vh;
-    padding-bottom: 40px;
-  }
-  header {
-    background: linear-gradient(135deg, #d4607a 0%, #e8a0b0 100%);
-    color: #fff;
-    padding: 22px 20px 16px;
-    text-align: center;
-    box-shadow: 0 2px 10px rgba(180,80,100,0.15);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  header h1 { font-size: 1.35rem; font-weight: 800; letter-spacing: -0.5px; }
-  header p { font-size: 0.8rem; opacity: 0.85; margin-top: 2px; }
-
-  .top-bar {
-    display: flex;
-    gap: 8px;
-    padding: 14px 16px 0;
-    justify-content: flex-end;
-  }
-  .btn {
-    background: #EBA5A7;
-    color: #fff;
-    border: none;
-    border-radius: 20px;
-    padding: 8px 18px;
-    font-family: 'Nanum Gothic', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 700;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    transition: background 0.18s, transform 0.1s;
-  }
-  .btn:active { transform: scale(0.97); }
-  .btn:hover { background: #d48a8c; }
-  .btn.secondary {
-    background: #fff;
-    color: #EBA5A7;
-    border: 1.5px solid #EBA5A7;
-  }
-  .btn.secondary:hover { background: #fde8ed; }
-
-  /* 탭 */
-  .brand-tabs {
-    display: flex;
-    gap: 0;
-    overflow-x: auto;
-    padding: 12px 16px 0;
-    scrollbar-width: none;
-  }
-  .brand-tabs::-webkit-scrollbar { display: none; }
-  .brand-tab {
-    flex-shrink: 0;
-    padding: 7px 16px;
-    border-radius: 20px 20px 0 0;
-    border: 1.5px solid var(--border);
-    border-bottom: none;
-    background: #fdf0f2;
-    color: var(--text2);
-    font-size: 0.82rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background 0.15s, color 0.15s;
-    margin-right: 4px;
+    background: var(--bg);
     position: relative;
-    bottom: -1px;
-  }
-  .brand-tab.active {
-    background: var(--card);
-    color: var(--accent);
-    border-color: var(--accent2);
-    border-bottom: 2px solid var(--card);
-    z-index: 1;
-  }
-  .brand-tab .cnt {
-    display: inline-block;
-    background: var(--accent3);
-    color: var(--accent);
-    border-radius: 8px;
-    font-size: 0.7rem;
-    padding: 0 5px;
-    margin-left: 4px;
-    font-weight: 800;
-  }
-  .brand-tab.active .cnt { background: var(--accent); color: #fff; }
-
-  /* 메인 */
-  .main-panel {
-    background: var(--card);
-    border: 1.5px solid var(--accent2);
-    border-radius: 0 var(--radius) var(--radius) var(--radius);
-    margin: 0 16px;
-    min-height: 300px;
-    padding: 16px;
+    box-shadow: 0 0 40px rgba(0,0,0,0.13);
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
   }
 
-  /* 상품명 그룹 */
-  .product-group {
-    margin-bottom: 18px;
-  }
-  .product-header {
+  /* 헤더 */
+  header {
+    background: var(--accent);
+    color: #fff;
+    padding: 18px 16px 14px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 8px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(200,120,120,0.18);
+  }
+  header h1 { font-size: 1.1rem; font-weight: 800; letter-spacing: -0.3px; }
+  header p  { font-size: 0.72rem; opacity: 0.88; margin-top: 1px; }
+  .header-left { display: flex; flex-direction: column; }
+  .header-btns { display: flex; gap: 6px; }
+
+  /* 버튼 공통 */
+  .btn {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 7px 14px;
+    font-family: 'Nanum Gothic', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: background 0.15s, transform 0.1s;
+  }
+  .btn:active { transform: scale(0.96); background: var(--accent-dark); }
+  .btn:hover  { background: var(--accent-dark); }
+  .btn.ghost {
+    background: rgba(255,255,255,0.22);
+    color: #fff;
+    border: 1.5px solid rgba(255,255,255,0.5);
+  }
+  .btn.ghost:hover { background: rgba(255,255,255,0.35); }
+  .btn.white {
+    background: #fff;
+    color: var(--accent);
+    border: 1.5px solid var(--accent);
+  }
+  .btn.white:hover { background: var(--tag-bg); }
+  .btn.sm { padding: 5px 10px; font-size: 0.75rem; }
+
+  /* 요약 블럭 */
+  .summary-section {
+    padding: 12px 12px 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .summary-block {
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .summary-block .blk-title {
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.68rem;
+    font-weight: 800;
+    padding: 5px 8px;
+    text-align: center;
+  }
+  .summary-block .blk-body {
+    background: var(--card);
+    padding: 8px 6px;
+    text-align: center;
+  }
+  .summary-block .blk-num {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1;
+  }
+  .summary-block .blk-num.green { color: #3a8040; }
+  .summary-block .blk-num.orange { color: #c06030; }
+
+  /* 브랜드 탭 */
+  .brand-tab-wrap {
+    padding: 12px 12px 0;
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .brand-tab-wrap::-webkit-scrollbar { display: none; }
+  .brand-tab {
+    flex-shrink: 0;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1.5px solid var(--border);
+    background: #fff;
+    color: var(--text2);
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .brand-tab.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+  .brand-tab .cnt {
+    display: inline-block;
+    font-size: 0.68rem;
+    margin-left: 3px;
+    opacity: 0.75;
+  }
+
+  /* 메인 콘텐츠 */
+  .content {
+    padding: 10px 12px 60px;
+    flex: 1;
+  }
+
+  /* 상품 그룹 블럭 */
+  .product-block {
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    margin-bottom: 10px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  }
+
+  /* 블럭 타이틀바 */
+  .product-block-header {
+    background: var(--accent);
+    color: #fff;
+    padding: 9px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     cursor: pointer;
     user-select: none;
   }
-  .product-name {
-    font-size: 0.97rem;
+  .product-block-header .pname {
+    font-size: 0.9rem;
     font-weight: 800;
-    color: var(--accent);
     display: flex;
     align-items: center;
     gap: 7px;
   }
-  .stock-badge {
-    background: var(--accent);
+  .stock-pill {
+    background: rgba(255,255,255,0.25);
     color: #fff;
     border-radius: 10px;
-    padding: 2px 9px;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 700;
-  }
-  .stock-badge.zero { background: #ccc; }
-  .chevron {
-    color: var(--text2);
-    font-size: 0.85rem;
-    transition: transform 0.2s;
-  }
-  .chevron.open { transform: rotate(180deg); }
-
-  /* 구매 아이템 */
-  .purchase-list { display: flex; flex-direction: column; gap: 7px; }
-  .purchase-item {
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 10px 13px;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 4px 8px;
-    align-items: start;
-    position: relative;
-  }
-  .purchase-item .row1 {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    flex-wrap: wrap;
-  }
-  .purchase-date { font-size: 0.75rem; color: var(--text2); }
-  .purchase-price {
-    font-size: 0.82rem;
-    font-weight: 700;
-    color: var(--text);
-  }
-  .status-tag {
-    font-size: 0.72rem;
-    font-weight: 700;
-    border-radius: 8px;
     padding: 2px 8px;
   }
-  .status-tag.in-use { background: var(--in-use); color: var(--in-use-text); }
-  .status-tag.in-stock { background: var(--tag-bg); color: var(--tag-text); }
-  .status-tag.expired { background: var(--expired); color: var(--expired-text); }
-  .status-tag.used { background: #f0f0f0; color: #888; }
-  .exp-date {
-    font-size: 0.72rem;
-    color: var(--text2);
-    grid-column: 1;
+  .inuse-pill {
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+    border-radius: 10px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 1px 7px;
+    border: 1px solid rgba(255,255,255,0.4);
   }
-  .exp-date.soon { color: #c06030; font-weight: 700; }
-  .exp-date.expired { color: #b04040; font-weight: 700; }
-  .item-actions {
+  .chevron { font-size: 0.75rem; opacity: 0.8; transition: transform 0.2s; }
+  .chevron.open { transform: rotate(180deg); }
+
+  /* 구매 아이템 리스트 */
+  .purchase-list {
+    background: var(--card);
+  }
+
+  /* 구매 아이템 */
+  .purchase-item {
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .purchase-item:last-child { border-bottom: none; }
+
+  /* 아이템 내부: 라벨행 + 내용행 */
+  .item-label-row {
+    background: #f8f8f8;
+    display: grid;
+    grid-template-columns: 90px 90px 1fr 70px;
+    border-bottom: 1px solid var(--border);
+  }
+  .item-label-row span {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--text2);
+    padding: 4px 8px;
+    border-right: 1px solid var(--border);
+    text-align: center;
+  }
+  .item-label-row span:last-child { border-right: none; }
+
+  .item-value-row {
+    display: grid;
+    grid-template-columns: 90px 90px 1fr 70px;
+    align-items: center;
+  }
+  .item-value-row .cell {
+    font-size: 0.78rem;
+    padding: 7px 8px;
+    border-right: 1px solid var(--border);
+    color: var(--text);
+    text-align: center;
+    word-break: keep-all;
+  }
+  .item-value-row .cell:last-child { border-right: none; }
+  .item-value-row .cell.price { font-weight: 700; }
+  .item-value-row .cell.actions {
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    align-items: flex-end;
+    gap: 3px;
+    align-items: center;
+    padding: 5px 6px;
   }
+
+  /* 상태 태그 */
+  .stag {
+    display: inline-block;
+    font-size: 0.66rem;
+    font-weight: 700;
+    border-radius: 6px;
+    padding: 2px 6px;
+  }
+  .stag.in-use   { background: var(--in-use-bg); color: var(--in-use-text); }
+  .stag.in-stock { background: var(--tag-bg); color: var(--tag-text); }
+  .stag.used     { background: #f0f0f0; color: #999; }
+  .stag.expired  { background: var(--expired-bg); color: var(--expired-text); }
+
+  /* 유효기간 표시 */
+  .exp-row {
+    background: #fafafa;
+    border-top: 1px solid var(--border);
+    padding: 4px 10px;
+    font-size: 0.68rem;
+    color: var(--text2);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .exp-row.soon    { background: #fff8f0; color: var(--soon-text); font-weight: 700; }
+  .exp-row.expired { background: #fff0f0; color: var(--expired-text); font-weight: 700; }
+
+  /* 아이콘 버튼 */
   .icon-btn {
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 1rem;
+    font-size: 0.9rem;
     padding: 2px 4px;
-    border-radius: 6px;
-    transition: background 0.15s;
+    border-radius: 4px;
+    transition: background 0.12s;
+    line-height: 1;
   }
-  .icon-btn:hover { background: #fde8ed; }
-  .use-btn {
-    font-size: 0.72rem;
+  .icon-btn:hover { background: var(--tag-bg); }
+  .open-btn {
+    font-size: 0.68rem;
     font-weight: 700;
-    background: var(--tag-bg);
-    color: var(--tag-text);
-    border: 1px solid var(--accent3);
-    border-radius: 8px;
-    padding: 3px 8px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 3px 7px;
     cursor: pointer;
     white-space: nowrap;
-    transition: background 0.15s;
+    transition: background 0.12s;
   }
-  .use-btn:hover { background: var(--accent3); }
-  .use-date { font-size: 0.7rem; color: var(--text2); }
+  .open-btn:hover { background: var(--accent-dark); }
 
   /* 빈 상태 */
   .empty-state {
@@ -246,151 +338,183 @@
     color: var(--text2);
     font-size: 0.88rem;
   }
-  .empty-state .icon { font-size: 2.5rem; margin-bottom: 10px; }
+  .empty-state .icon { font-size: 2.2rem; margin-bottom: 10px; }
 
-  /* 모달 오버레이 */
+  /* 모달 */
   .modal-overlay {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(80,20,30,0.35);
-    z-index: 1000;
-    align-items: center;
+    background: rgba(40,20,20,0.4);
+    z-index: 200;
+    align-items: flex-end;
     justify-content: center;
-    padding: 16px;
   }
   .modal-overlay.open { display: flex; }
   .modal {
-    background: var(--card);
-    border-radius: var(--radius);
-    padding: 24px 20px 20px;
+    background: var(--bg);
+    border-radius: 16px 16px 0 0;
+    padding: 20px 16px 30px;
     width: 100%;
-    max-width: 420px;
-    box-shadow: 0 8px 40px rgba(180,80,100,0.22);
-    max-height: 92vh;
+    max-width: var(--app-width);
+    box-shadow: 0 -4px 30px rgba(0,0,0,0.15);
+    max-height: 90vh;
     overflow-y: auto;
   }
-  .modal h2 {
-    font-size: 1.1rem;
-    font-weight: 800;
-    color: var(--accent);
-    margin-bottom: 18px;
+  .modal-handle {
+    width: 36px; height: 4px;
+    background: #ddd;
+    border-radius: 2px;
+    margin: 0 auto 16px;
   }
-  .form-group { margin-bottom: 13px; }
+  .modal h2 {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  /* 모달 내 블럭 스타일 폼 */
+  .form-block {
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    margin-bottom: 10px;
+  }
+  .form-block-title {
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 5px 10px;
+  }
+  .form-block-body {
+    background: #fff;
+    padding: 10px;
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .form-group { display: flex; flex-direction: column; gap: 3px; }
   .form-group label {
-    display: block;
-    font-size: 0.8rem;
+    font-size: 0.72rem;
     font-weight: 700;
     color: var(--text2);
-    margin-bottom: 4px;
   }
-  .form-group input, .form-group select {
-    width: 100%;
-    padding: 9px 12px;
+  .form-group input,
+  .form-group select {
+    padding: 8px 10px;
     border: 1.5px solid var(--border);
-    border-radius: 9px;
+    border-radius: 7px;
     font-family: 'Nanum Gothic', sans-serif;
-    font-size: 0.88rem;
-    background: #fff;
+    font-size: 0.85rem;
     color: var(--text);
+    background: #fff;
     outline: none;
     transition: border-color 0.15s;
   }
-  .form-group input:focus, .form-group select:focus {
-    border-color: var(--accent);
-  }
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .form-group input:focus,
+  .form-group select:focus { border-color: var(--accent); }
   .modal-actions {
     display: flex;
     gap: 8px;
-    margin-top: 18px;
+    margin-top: 14px;
     justify-content: flex-end;
   }
 
-  /* 요약 카드 */
-  .summary-bar {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    margin: 14px 16px 0;
+  /* 브랜드 관리 리스트 */
+  .brand-manage-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 12px;
+    margin-bottom: 6px;
   }
-  .summary-card {
-    background: var(--card);
-    border: 1.5px solid var(--border);
-    border-radius: 12px;
-    padding: 10px 8px;
-    text-align: center;
-  }
-  .summary-card .num {
-    font-size: 1.4rem;
-    font-weight: 800;
-    color: var(--accent);
-    line-height: 1.1;
-  }
-  .summary-card .lbl {
-    font-size: 0.7rem;
-    color: var(--text2);
-    margin-top: 2px;
-  }
+  .brand-manage-item span { font-weight: 700; font-size: 0.88rem; color: var(--text); }
 
-  @media (max-width: 480px) {
-    .form-row { grid-template-columns: 1fr; }
-    header h1 { font-size: 1.15rem; }
-    .summary-card .num { font-size: 1.1rem; }
+  @media (min-width: 430px) {
+    .modal { border-radius: 16px; margin-bottom: 20px; }
+    .modal-overlay { align-items: center; }
   }
 </style>
 </head>
 <body>
+<div id="app">
 
-<header>
-  <h1>💄 화장품 재고 관리</h1>
-  <p>구매내역 · 사용기록 · 잔여재고</p>
-</header>
+  <header>
+    <div class="header-left">
+      <h1>💄 화장품 재고 관리</h1>
+      <p>구매내역 · 사용기록 · 잔여재고</p>
+    </div>
+    <div class="header-btns">
+      <button class="btn ghost sm" onclick="openManageBrands()">🏷️ 브랜드</button>
+      <button class="btn ghost sm" onclick="openAddModal()">＋ 추가</button>
+    </div>
+  </header>
 
-<div class="top-bar">
-  <button class="btn secondary" onclick="openManageBrands()">🏷️ 브랜드 관리</button>
-  <button class="btn" onclick="openAddModal()">＋ 구매 추가</button>
-</div>
+  <div class="summary-section" id="summaryBar"></div>
 
-<div class="summary-bar" id="summaryBar"></div>
+  <div class="brand-tab-wrap" id="brandTabs"></div>
 
-<div class="brand-tabs" id="brandTabs"></div>
-<div class="main-panel" id="mainPanel"></div>
+  <div class="content" id="mainPanel"></div>
 
-<!-- 구매 추가 모달 -->
+</div><!-- /#app -->
+
+<!-- 구매 추가/수정 모달 -->
 <div class="modal-overlay" id="addModal">
   <div class="modal">
-    <h2>🛒 구매 내역 추가</h2>
-    <div class="form-group">
-      <label>브랜드</label>
-      <select id="inp_brand"></select>
-    </div>
-    <div class="form-group">
-      <label>상품명</label>
-      <input type="text" id="inp_product" placeholder="예: 수분크림, 토너 등">
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label>구매일자</label>
-        <input type="text" id="inp_buyDate" placeholder="YYYY-MM-DD" maxlength="10">
-      </div>
-      <div class="form-group">
-        <label>구매금액 (원)</label>
-        <input type="number" id="inp_price" placeholder="0">
+    <div class="modal-handle"></div>
+    <h2 id="addModalTitle">🛒 구매 내역 추가</h2>
+
+    <div class="form-block">
+      <div class="form-block-title">기본 정보</div>
+      <div class="form-block-body">
+        <div class="form-group" style="margin-bottom:8px">
+          <label>브랜드</label>
+          <select id="inp_brand"></select>
+        </div>
+        <div class="form-group">
+          <label>상품명</label>
+          <input type="text" id="inp_product" placeholder="예: 수분크림, 토너">
+        </div>
       </div>
     </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label>유효기간</label>
-        <input type="text" id="inp_expDate" placeholder="YYYY-MM-DD" maxlength="10">
+
+    <div class="form-block">
+      <div class="form-block-title">구매 정보</div>
+      <div class="form-block-body">
+        <div class="form-row">
+          <div class="form-group">
+            <label>구매일자</label>
+            <input type="text" id="inp_buyDate" placeholder="YYYY-MM-DD" maxlength="10">
+          </div>
+          <div class="form-group">
+            <label>구매금액 (원)</label>
+            <input type="number" id="inp_price" placeholder="0">
+          </div>
+        </div>
       </div>
     </div>
-    <div class="form-group">
-      <label>메모</label>
-      <input type="text" id="inp_memo" placeholder="구매처, 용량 등 메모">
+
+    <div class="form-block">
+      <div class="form-block-title">유효기간 · 메모</div>
+      <div class="form-block-body">
+        <div class="form-group" style="margin-bottom:8px">
+          <label>유효기간</label>
+          <input type="text" id="inp_expDate" placeholder="YYYY-MM-DD" maxlength="10">
+        </div>
+        <div class="form-group">
+          <label>메모</label>
+          <input type="text" id="inp_memo" placeholder="구매처, 용량 등">
+        </div>
+      </div>
     </div>
+
     <div class="modal-actions">
-      <button class="btn secondary" onclick="closeModal('addModal')">취소</button>
+      <button class="btn white" onclick="closeModal('addModal')">취소</button>
       <button class="btn" onclick="saveItem()">저장</button>
     </div>
   </div>
@@ -399,39 +523,52 @@
 <!-- 브랜드 관리 모달 -->
 <div class="modal-overlay" id="brandModal">
   <div class="modal">
+    <div class="modal-handle"></div>
     <h2>🏷️ 브랜드 관리</h2>
-    <div style="display:flex;gap:8px;margin-bottom:14px;">
-      <input type="text" id="newBrandInput" placeholder="새 브랜드명 입력"
-        style="flex:1;padding:9px 12px;border:1.5px solid var(--border);border-radius:9px;font-family:'Nanum Gothic',sans-serif;font-size:0.88rem;outline:none;">
-      <button class="btn" onclick="addBrand()" style="border-radius:9px;padding:9px 14px;">추가</button>
+    <div class="form-block">
+      <div class="form-block-title">새 브랜드 추가</div>
+      <div class="form-block-body" style="display:flex;gap:8px;">
+        <input type="text" id="newBrandInput" placeholder="브랜드명 입력"
+          style="flex:1;padding:8px 10px;border:1.5px solid var(--border);border-radius:7px;font-family:'Nanum Gothic',sans-serif;font-size:0.85rem;outline:none;">
+        <button class="btn" onclick="addBrand()" style="border-radius:7px;">추가</button>
+      </div>
     </div>
-    <div id="brandList" style="display:flex;flex-direction:column;gap:7px;"></div>
+    <div id="brandList"></div>
     <div class="modal-actions">
       <button class="btn" onclick="closeModal('brandModal')">완료</button>
     </div>
   </div>
 </div>
 
-<!-- 사용기록 모달 -->
+<!-- 개봉(사용) 기록 모달 -->
 <div class="modal-overlay" id="useModal">
   <div class="modal">
-    <h2>✅ 사용 시작 기록</h2>
-    <p style="font-size:0.85rem;color:var(--text2);margin-bottom:16px;" id="useModalDesc"></p>
-    <div class="form-group">
-      <label>사용 시작일</label>
-      <input type="text" id="inp_useDate" placeholder="YYYY-MM-DD" maxlength="10">
+    <div class="modal-handle"></div>
+    <h2>✅ 개봉 기록</h2>
+    <div class="form-block">
+      <div class="form-block-title">상품 정보</div>
+      <div class="form-block-body">
+        <p style="font-size:0.85rem;color:var(--text2);" id="useModalDesc"></p>
+      </div>
+    </div>
+    <div class="form-block">
+      <div class="form-block-title">개봉일</div>
+      <div class="form-block-body">
+        <div class="form-group">
+          <label>사용 시작일</label>
+          <input type="text" id="inp_useDate" placeholder="YYYY-MM-DD" maxlength="10">
+        </div>
+      </div>
     </div>
     <div class="modal-actions">
-      <button class="btn secondary" onclick="closeModal('useModal')">취소</button>
+      <button class="btn white" onclick="closeModal('useModal')">취소</button>
       <button class="btn" onclick="confirmUse()">확인</button>
     </div>
   </div>
 </div>
 
 <script>
-// ── 데이터 ──────────────────────────────────────
 const STORAGE_KEY = 'cosmeticTracker_v1';
-
 function loadData() {
   try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || getDefaultData(); }
   catch { return getDefaultData(); }
@@ -441,51 +578,51 @@ function getDefaultData() {
   return {
     brands: ['설화수', 'SK-II', '라네즈', '기타'],
     items: [
-      { id: 1, brand: '설화수', product: '윤조에센스', buyDate: '2024-10-15', price: 85000, expDate: '2026-10-14', pao: '12M', memo: '백화점 구매', useDate: '2024-10-20', status: 'in-use' },
-      { id: 2, brand: '설화수', product: '자음생크림', buyDate: '2024-11-01', price: 120000, expDate: '2026-10-31', pao: '12M', memo: '', useDate: null, status: 'in-stock' },
-      { id: 3, brand: 'SK-II', product: '피테라에센스', buyDate: '2024-09-05', price: 195000, expDate: '2026-09-04', pao: '12M', memo: '면세점', useDate: '2024-09-10', status: 'in-use' },
-      { id: 4, brand: 'SK-II', product: '피테라에센스', buyDate: '2025-01-20', price: 195000, expDate: '2027-01-19', pao: '12M', memo: '면세점', useDate: null, status: 'in-stock' },
-      { id: 5, brand: '라네즈', product: '워터뱅크크림', buyDate: '2025-02-10', price: 39000, expDate: '2027-02-09', pao: '6M', memo: '', useDate: null, status: 'in-stock' },
+      { id:1, brand:'설화수', product:'윤조에센스', buyDate:'2024-10-15', price:85000, expDate:'2026-10-14', memo:'백화점 구매', useDate:'2024-10-20', status:'in-use' },
+      { id:2, brand:'설화수', product:'자음생크림', buyDate:'2024-11-01', price:120000, expDate:'2026-10-31', memo:'', useDate:null, status:'in-stock' },
+      { id:3, brand:'SK-II', product:'피테라에센스', buyDate:'2024-09-05', price:195000, expDate:'2026-09-04', memo:'면세점', useDate:'2024-09-10', status:'in-use' },
+      { id:4, brand:'SK-II', product:'피테라에센스', buyDate:'2025-01-20', price:195000, expDate:'2027-01-19', memo:'면세점', useDate:null, status:'in-stock' },
+      { id:5, brand:'라네즈', product:'워터뱅크크림', buyDate:'2025-02-10', price:39000, expDate:'2027-02-09', memo:'', useDate:null, status:'in-stock' },
     ]
   };
 }
 
 let data = loadData();
-let currentBrand = data.brands[0] || '기타';
+let currentBrand = data.brands[0] || '';
 let editItemId = null;
 let useItemId = null;
 
-// ── 렌더 ──────────────────────────────────────
-function render() {
-  renderSummary();
-  renderTabs();
-  renderPanel();
-}
+// ── 렌더 ─────────────────────────────────────
+function render() { renderSummary(); renderTabs(); renderPanel(); }
 
 function renderSummary() {
   const total = data.items.length;
   const inUse = data.items.filter(i => i.status === 'in-use').length;
-  const inStock = data.items.filter(i => i.status === 'in-stock').length;
-  const today = new Date(); today.setHours(0,0,0,0);
+  const td = new Date(); td.setHours(0,0,0,0);
   const soon = data.items.filter(i => {
-    if (!i.expDate) return false;
-    const d = new Date(i.expDate);
-    const diff = (d - today) / 86400000;
-    return diff >= 0 && diff <= 30 && i.status !== 'used';
+    if (!i.expDate || i.status === 'used') return false;
+    const diff = (new Date(i.expDate) - td) / 86400000;
+    return diff >= 0 && diff <= 30;
   }).length;
   document.getElementById('summaryBar').innerHTML = `
-    <div class="summary-card"><div class="num">${total}</div><div class="lbl">전체 아이템</div></div>
-    <div class="summary-card"><div class="num" style="color:#3a8040">${inUse}</div><div class="lbl">사용중</div></div>
-    <div class="summary-card"><div class="num" style="color:${soon>0?'#c06030':'var(--accent)'}">${soon}</div><div class="lbl">만료 임박(30일)</div></div>
-  `;
+    <div class="summary-block">
+      <div class="blk-title">전체 아이템</div>
+      <div class="blk-body"><div class="blk-num">${total}</div></div>
+    </div>
+    <div class="summary-block">
+      <div class="blk-title">사용중</div>
+      <div class="blk-body"><div class="blk-num green">${inUse}</div></div>
+    </div>
+    <div class="summary-block">
+      <div class="blk-title">만료임박</div>
+      <div class="blk-body"><div class="blk-num ${soon>0?'orange':''}">${soon}</div></div>
+    </div>`;
 }
 
 function renderTabs() {
-  const el = document.getElementById('brandTabs');
-  el.innerHTML = data.brands.map(b => {
+  document.getElementById('brandTabs').innerHTML = data.brands.map(b => {
     const cnt = data.items.filter(i => i.brand === b).length;
-    const active = b === currentBrand ? 'active' : '';
-    return `<div class="brand-tab ${active}" onclick="selectBrand('${b}')">
+    return `<div class="brand-tab ${b===currentBrand?'active':''}" onclick="selectBrand('${b}')">
       ${b}<span class="cnt">${cnt}</span>
     </div>`;
   }).join('');
@@ -495,67 +632,62 @@ function renderPanel() {
   const items = data.items.filter(i => i.brand === currentBrand);
   const el = document.getElementById('mainPanel');
   if (!items.length) {
-    el.innerHTML = `<div class="empty-state"><div class="icon">💄</div>이 브랜드에 등록된 상품이 없습니다.<br><br><button class="btn" onclick="openAddModal()">＋ 첫 상품 추가</button></div>`;
+    el.innerHTML = `<div class="empty-state"><div class="icon">💄</div>등록된 상품이 없습니다.<br><br><button class="btn" onclick="openAddModal()">＋ 첫 상품 추가</button></div>`;
     return;
   }
-  // 상품명별 그룹
   const groups = {};
-  items.forEach(item => {
-    if (!groups[item.product]) groups[item.product] = [];
-    groups[item.product].push(item);
-  });
-
-  const today = new Date(); today.setHours(0,0,0,0);
+  items.forEach(it => { if (!groups[it.product]) groups[it.product]=[]; groups[it.product].push(it); });
+  const td = new Date(); td.setHours(0,0,0,0);
 
   el.innerHTML = Object.entries(groups).map(([product, list]) => {
-    const inStock = list.filter(i => i.status === 'in-stock').length;
-    const inUse = list.filter(i => i.status === 'in-use').length;
+    const inStock = list.filter(i=>i.status==='in-stock').length;
+    const inUse   = list.filter(i=>i.status==='in-use').length;
     const stockNum = inStock + inUse;
 
-    const itemsHtml = list.sort((a,b) => new Date(b.buyDate)-new Date(a.buyDate)).map(item => {
+    const itemsHtml = list.sort((a,b)=>new Date(b.buyDate)-new Date(a.buyDate)).map(item => {
       const expD = item.expDate ? new Date(item.expDate) : null;
-      const diff = expD ? (expD - today) / 86400000 : 999;
-      let expClass = '', expLabel = '';
+      const diff = expD ? (expD - td) / 86400000 : 999;
+      let expClass='', expLabel='';
       if (expD) {
-        if (diff < 0) { expClass = 'expired'; expLabel = '⚠️ 기한 만료'; }
-        else if (diff <= 30) { expClass = 'soon'; expLabel = `⚠️ D-${Math.ceil(diff)} 만료임박`; }
-        else expLabel = `유효: ${item.expDate}`;
+        if (diff < 0)       { expClass='expired'; expLabel='⚠️ 기한 만료'; }
+        else if (diff <= 30){ expClass='soon';    expLabel=`⚠️ D-${Math.ceil(diff)} 만료임박`; }
+        else                { expLabel=`유효기간: ${item.expDate}`; }
       }
-      let statusLabel = '', statusClass = '';
-      if (item.status === 'in-use') { statusLabel = '사용중'; statusClass = 'in-use'; }
-      else if (item.status === 'in-stock') { statusLabel = '미개봉'; statusClass = 'in-stock'; }
-      else if (item.status === 'used') { statusLabel = '사용완료'; statusClass = 'used'; }
-      else if (item.status === 'expired') { statusLabel = '기한만료'; statusClass = 'expired'; }
+      const sMap = { 'in-use':'사용중', 'in-stock':'미개봉', 'used':'사용완료', 'expired':'기한만료' };
+      const statusLabel = sMap[item.status] || '';
 
-      const useBtn = (item.status === 'in-stock')
-        ? `<button class="use-btn" onclick="openUseModal(${item.id})">개봉</button>` : '';
-      const useInfo = item.useDate ? `<div class="use-date">개봉: ${item.useDate}</div>` : '';
+      const openBtn  = item.status==='in-stock' ? `<button class="open-btn" onclick="openUseModal(${item.id})">개봉</button>` : '';
+      const useInfo  = item.useDate ? `<span style="font-size:0.65rem;color:var(--text2);">개봉 ${item.useDate}</span>` : '';
 
       return `<div class="purchase-item">
-        <div>
-          <div class="row1">
-            <span class="purchase-date">🛒 ${item.buyDate}</span>
-            <span class="purchase-price">${item.price ? Number(item.price).toLocaleString()+'원' : '-'}</span>
-            <span class="status-tag ${statusClass}">${statusLabel}</span>
+        <div class="item-label-row">
+          <span>구매일자</span><span>구매금액</span><span>상태</span><span>관리</span>
+        </div>
+        <div class="item-value-row">
+          <div class="cell">${item.buyDate}</div>
+          <div class="cell price">${item.price ? Number(item.price).toLocaleString()+'원' : '-'}</div>
+          <div class="cell">
+            <span class="stag ${item.status}">${statusLabel}</span>
+            ${useInfo}
           </div>
-          ${expD ? `<div class="exp-date ${expClass}">${expLabel}</div>` : ''}
-          ${useInfo}
-          ${item.memo ? `<div style="font-size:0.72rem;color:var(--text2);margin-top:2px;">📝 ${item.memo}</div>` : ''}
+          <div class="cell actions">
+            ${openBtn}
+            <div style="display:flex;gap:2px;">
+              <button class="icon-btn" onclick="openEditModal(${item.id})">✏️</button>
+              <button class="icon-btn" onclick="deleteItem(${item.id})">🗑️</button>
+            </div>
+          </div>
         </div>
-        <div class="item-actions">
-          ${useBtn}
-          <button class="icon-btn" title="수정" onclick="openEditModal(${item.id})">✏️</button>
-          <button class="icon-btn" title="삭제" onclick="deleteItem(${item.id})">🗑️</button>
-        </div>
+        ${expD ? `<div class="exp-row ${expClass}">${expLabel}${item.memo ? ' · '+item.memo : ''}</div>` : (item.memo ? `<div class="exp-row">📝 ${item.memo}</div>` : '')}
       </div>`;
     }).join('');
 
-    return `<div class="product-group">
-      <div class="product-header" onclick="toggleGroup(this)">
-        <div class="product-name">
+    return `<div class="product-block">
+      <div class="product-block-header" onclick="toggleGroup(this)">
+        <div class="pname">
           ${product}
-          <span class="stock-badge ${stockNum===0?'zero':''}">잔여 ${stockNum}개</span>
-          ${inUse>0?`<span style="font-size:0.72rem;color:var(--in-use-text);font-weight:700;">사용중 ${inUse}</span>`:''}
+          <span class="stock-pill">잔여 ${stockNum}개</span>
+          ${inUse>0 ? `<span class="inuse-pill">사용중 ${inUse}</span>` : ''}
         </div>
         <span class="chevron open">▼</span>
       </div>
@@ -567,30 +699,19 @@ function renderPanel() {
 function toggleGroup(header) {
   const list = header.nextElementSibling;
   const chev = header.querySelector('.chevron');
-  if (list.style.display === 'none') {
-    list.style.display = 'flex';
-    chev.classList.add('open');
-  } else {
-    list.style.display = 'none';
-    chev.classList.remove('open');
-  }
+  const isHidden = list.style.display === 'none';
+  list.style.display = isHidden ? 'block' : 'none';
+  isHidden ? chev.classList.add('open') : chev.classList.remove('open');
 }
-
-function selectBrand(b) {
-  currentBrand = b;
-  render();
-}
+function selectBrand(b) { currentBrand = b; render(); }
 
 // ── 브랜드 관리 ──────────────────────────────────────
-function openManageBrands() {
-  renderBrandList();
-  document.getElementById('brandModal').classList.add('open');
-}
+function openManageBrands() { renderBrandList(); document.getElementById('brandModal').classList.add('open'); }
 function renderBrandList() {
   document.getElementById('brandList').innerHTML = data.brands.map((b,i) =>
-    `<div style="display:flex;align-items:center;justify-content:space-between;background:#fff;border:1px solid var(--border);border-radius:9px;padding:9px 13px;">
-      <span style="font-weight:700;">${b}</span>
-      <button class="icon-btn" onclick="deleteBrand(${i})" title="삭제">🗑️</button>
+    `<div class="brand-manage-item">
+      <span>${b}</span>
+      <button class="icon-btn" onclick="deleteBrand(${i})">🗑️</button>
     </div>`
   ).join('');
 }
@@ -598,138 +719,108 @@ function addBrand() {
   const v = document.getElementById('newBrandInput').value.trim();
   if (!v) return;
   if (data.brands.includes(v)) { alert('이미 있는 브랜드입니다.'); return; }
-  data.brands.push(v);
-  saveData(data);
+  data.brands.push(v); saveData(data);
   document.getElementById('newBrandInput').value = '';
-  renderBrandList();
-  render();
+  renderBrandList(); render();
 }
 function deleteBrand(i) {
   const b = data.brands[i];
-  if (data.items.some(it => it.brand === b)) {
-    if (!confirm(`'${b}' 브랜드에 등록된 상품이 있습니다. 그래도 삭제하시겠습니까?`)) return;
+  if (data.items.some(it=>it.brand===b)) {
+    if (!confirm(`'${b}' 브랜드 상품이 있습니다. 삭제하시겠습니까?`)) return;
   }
   data.brands.splice(i,1);
-  if (currentBrand === b) currentBrand = data.brands[0] || '';
-  saveData(data);
-  renderBrandList();
-  render();
+  if (currentBrand===b) currentBrand = data.brands[0]||'';
+  saveData(data); renderBrandList(); render();
 }
 
-// ── 구매 추가 / 수정 ──────────────────────────────────────
+// ── 추가 / 수정 ──────────────────────────────────────
 function openAddModal() {
   editItemId = null;
-  document.querySelector('#addModal h2').textContent = '🛒 구매 내역 추가';
+  document.getElementById('addModalTitle').textContent = '🛒 구매 내역 추가';
   clearForm();
-  document.getElementById('inp_buyDate').value = today();
+  document.getElementById('inp_buyDate').value = todayStr();
   populateBrandSelect();
   document.getElementById('addModal').classList.add('open');
 }
 function openEditModal(id) {
   editItemId = id;
-  const item = data.items.find(i => i.id === id);
-  if (!item) return;
-  document.querySelector('#addModal h2').textContent = '✏️ 내역 수정';
+  const item = data.items.find(i=>i.id===id); if (!item) return;
+  document.getElementById('addModalTitle').textContent = '✏️ 내역 수정';
   populateBrandSelect(item.brand);
-  document.getElementById('inp_product').value = item.product;
-  document.getElementById('inp_buyDate').value = item.buyDate;
-  document.getElementById('inp_price').value = item.price || '';
-  document.getElementById('inp_expDate').value = item.expDate || '';
-  document.getElementById('inp_memo').value = item.memo || '';
+  document.getElementById('inp_product').value  = item.product;
+  document.getElementById('inp_buyDate').value  = item.buyDate;
+  document.getElementById('inp_price').value    = item.price||'';
+  document.getElementById('inp_expDate').value  = item.expDate||'';
+  document.getElementById('inp_memo').value     = item.memo||'';
   document.getElementById('addModal').classList.add('open');
 }
 function populateBrandSelect(selected) {
-  const sel = document.getElementById('inp_brand');
-  sel.innerHTML = data.brands.map(b => `<option value="${b}" ${b===(selected||currentBrand)?'selected':''}>${b}</option>`).join('');
+  document.getElementById('inp_brand').innerHTML =
+    data.brands.map(b=>`<option value="${b}" ${b===(selected||currentBrand)?'selected':''}>${b}</option>`).join('');
 }
 function clearForm() {
-  ['inp_product','inp_buyDate','inp_price','inp_expDate','inp_memo'].forEach(id => {
-    document.getElementById(id).value = '';
+  ['inp_product','inp_buyDate','inp_price','inp_expDate','inp_memo'].forEach(id=>{
+    document.getElementById(id).value='';
   });
 }
 function saveItem() {
-  const brand = document.getElementById('inp_brand').value;
+  const brand   = document.getElementById('inp_brand').value;
   const product = document.getElementById('inp_product').value.trim();
   const buyDate = document.getElementById('inp_buyDate').value;
-  const price = document.getElementById('inp_price').value;
+  const price   = document.getElementById('inp_price').value;
   const expDate = document.getElementById('inp_expDate').value;
-  const memo = document.getElementById('inp_memo').value.trim();
-  if (!product || !buyDate) { alert('브랜드, 상품명, 구매일자는 필수입니다.'); return; }
+  const memo    = document.getElementById('inp_memo').value.trim();
+  if (!product||!buyDate) { alert('상품명과 구매일자는 필수입니다.'); return; }
   if (editItemId) {
-    const item = data.items.find(i => i.id === editItemId);
-    Object.assign(item, { brand, product, buyDate, price, expDate, memo });
+    Object.assign(data.items.find(i=>i.id===editItemId), {brand,product,buyDate,price:price?Number(price):null,expDate,memo});
   } else {
-    data.items.push({
-      id: Date.now(), brand, product, buyDate,
-      price: price ? Number(price) : null,
-      expDate, memo, useDate: null, status: 'in-stock'
-    });
+    data.items.push({id:Date.now(),brand,product,buyDate,price:price?Number(price):null,expDate,memo,useDate:null,status:'in-stock'});
   }
-  saveData(data);
-  currentBrand = brand;
-  closeModal('addModal');
-  render();
+  saveData(data); currentBrand=brand; closeModal('addModal'); render();
 }
 
-// ── 사용 기록 ──────────────────────────────────────
+// ── 개봉 기록 ──────────────────────────────────────
 function openUseModal(id) {
   useItemId = id;
-  const item = data.items.find(i => i.id === id);
+  const item = data.items.find(i=>i.id===id);
   document.getElementById('useModalDesc').textContent = `${item.brand} · ${item.product} (구매: ${item.buyDate})`;
-  document.getElementById('inp_useDate').value = today();
+  document.getElementById('inp_useDate').value = todayStr();
   document.getElementById('useModal').classList.add('open');
 }
 function confirmUse() {
   const useDate = document.getElementById('inp_useDate').value;
   if (!useDate) { alert('날짜를 입력해 주세요.'); return; }
-  const item = data.items.find(i => i.id === useItemId);
-  item.useDate = useDate;
-  item.status = 'in-use';
-  saveData(data);
-  closeModal('useModal');
-  render();
+  const item = data.items.find(i=>i.id===useItemId);
+  item.useDate=useDate; item.status='in-use';
+  saveData(data); closeModal('useModal'); render();
 }
 
 // ── 삭제 ──────────────────────────────────────
 function deleteItem(id) {
   if (!confirm('삭제하시겠습니까?')) return;
-  data.items = data.items.filter(i => i.id !== id);
-  saveData(data);
-  render();
+  data.items=data.items.filter(i=>i.id!==id); saveData(data); render();
 }
 
-// ── 날짜 자동 포맷 (YYYY-MM-DD, 년4자리→월 자동이동) ──────────────────────────────────────
-function applyDateAutoFormat(input) {
-  input.addEventListener('input', function(e) {
-    let v = this.value.replace(/\D/g, ''); // 숫자만
-    let formatted = '';
-    if (v.length <= 4) {
-      formatted = v;
-    } else if (v.length <= 6) {
-      formatted = v.slice(0,4) + '-' + v.slice(4);
-    } else {
-      formatted = v.slice(0,4) + '-' + v.slice(4,6) + '-' + v.slice(6,8);
-    }
-    this.value = formatted;
+// ── 날짜 자동포맷 ──────────────────────────────────────
+function applyDateFmt(input) {
+  input.addEventListener('input', function() {
+    let v = this.value.replace(/\D/g,'');
+    if (v.length<=4) this.value=v;
+    else if (v.length<=6) this.value=v.slice(0,4)+'-'+v.slice(4);
+    else this.value=v.slice(0,4)+'-'+v.slice(4,6)+'-'+v.slice(6,8);
   });
 }
-
 function initDateInputs() {
-  ['inp_buyDate','inp_expDate','inp_useDate'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) applyDateAutoFormat(el);
+  ['inp_buyDate','inp_expDate','inp_useDate'].forEach(id=>{
+    const el=document.getElementById(id); if(el) applyDateFmt(el);
   });
 }
 
 // ── 유틸 ──────────────────────────────────────
-function today() {
-  return new Date().toISOString().slice(0,10);
-}
-function closeModal(id) {
-  document.getElementById(id).classList.remove('open');
-}
-document.querySelectorAll('.modal-overlay').forEach(el => {
-  el.addEventListener('click', e => { if (e.target === el) el.classList.remove('open'); });
+function todayStr() { return new Date().toISOString().slice(0,10); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(el=>{
+  el.addEventListener('click', e=>{ if(e.target===el) el.classList.remove('open'); });
 });
 
 initDateInputs();
