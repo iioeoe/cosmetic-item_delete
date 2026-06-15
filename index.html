@@ -60,7 +60,8 @@
   .top-block-header p  { font-size: 0.7rem; color: var(--text2); margin-top: 2px; }
   .top-block-header .header-left { display: flex; flex-direction: column; }
   .top-block-header .header-btns { display: flex; gap: 6px; }
-  .top-block-body { background: #FDEAEA; display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; padding: 15px 8px; }
+  /*.top-block-body { background: #FDEAEA; display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; padding: 15px 8px; }*/
+  .top-block-body { background:#FDEAEA;  display:grid;  grid-template-columns:repeat(2,1fr);  gap:10px;  padding:12px;}
   .top-block-body .sum-cell { text-align: center; border-radius: 8px; overflow: hidden; border: 1.5px solid #FFD6EF; }
   .sum-cell .s-label { font-size: 0.72rem; font-weight: 800; color: #fff; padding: 5px 4px; display: block; }
   .sum-cell.cell-stock .s-label { background: #c682b1; }
@@ -186,6 +187,40 @@
 .quick-actions .btn{
   flex:1;
   justify-content:center;
+}
+
+.dash-card{
+  background:#fff;
+  border-radius:14px;
+  padding:14px;
+  text-align:center;
+}
+
+.dash-card .title{
+  font-size:.75rem;
+  color:var(--text2);
+}
+
+.dash-card .value{
+  font-size:1.6rem;
+  font-weight:800;
+  margin-top:6px;
+}
+
+.stock{
+  background:#f6d3eb;
+}
+
+.total{
+  background:#fee3e3;
+}
+
+.use{
+  background:#d0e7f2;
+}
+
+.soon{
+  background:#fff1d0;
 }
   
 </style>
