@@ -222,6 +222,31 @@
 .soon{
   background:#fff1d0;
 }
+
+/* 하단메뉴추가 */
+.bottom-nav{
+  position:sticky;
+  bottom:0;
+  background:#fff;
+  border-top:1px solid var(--border);
+  display:flex;
+  justify-content:space-around;
+  padding:10px 0;
+}
+
+.nav-item{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  font-size:.7rem;
+  gap:4px;
+  color:#888;
+}
+
+.nav-item.active{
+  color:var(--accent);
+  font-weight:700;
+}  
   
 </style>
 </head>
@@ -406,6 +431,32 @@
   </div>
 </div>
 
+<!-- 하단메뉴추가 -->  
+  <div class="bottom-nav">
+
+  <div class="nav-item active">
+    🏠
+    <span>홈</span>
+  </div>
+
+  <div class="nav-item">
+    🏷️
+    <span>브랜드</span>
+  </div>
+
+  <div class="nav-item">
+    📦
+    <span>상품</span>
+  </div>
+
+  <div class="nav-item">
+    📊
+    <span>재고</span>
+  </div>
+
+</div>
+
+  
 <script>
 const STORAGE_KEY = 'cosmeticTracker_v1';
 function loadData() {
