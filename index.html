@@ -402,11 +402,35 @@ function renderSummary() {
     return diff >= 0 && diff <= 30;
   }).length;
   document.getElementById('summaryBar').innerHTML = `
-    <div class="sum-cell cell-stock"><div class="s-label">재고</div><div class="s-num">${inStock}</div></div>
-    <div class="sum-cell cell-total"><div class="s-label">전체</div><div class="s-num">${total}</div></div>
-    <div class="sum-cell cell-inuse"><div class="s-label">사용중</div><div class="s-num">${inUse}</div></div>
-    <div class="sum-cell cell-soon"><div class="s-label">만료임박</div><div class="s-num">${soon}</div></div>`;
+  // <div class="sum-cell cell-stock"><div class="s-label">재고</div><div class="s-num">${inStock}</div></div>
+  // <div class="sum-cell cell-total"><div class="s-label">전체</div><div class="s-num">${total}</div></div>
+  // <div class="sum-cell cell-inuse"><div class="s-label">사용중</div><div class="s-num">${inUse}</div></div>
+  // <div class="sum-cell cell-soon"><div class="s-label">만료임박</div><div class="s-num">${soon}</div></div>`;
+  
+// 신규 추가
+  <div class="dash-card stock">
+    <div class="title">전체 재고</div>
+    <div class="value">${inStock}</div>
+  </div>
+
+  <div class="dash-card total">
+    <div class="title">전체 상품</div>
+    <div class="value">${total}</div>
+  </div>
+
+  <div class="dash-card use">
+    <div class="title">사용중</div>
+    <div class="value">${inUse}</div>
+  </div>
+
+  <div class="dash-card soon">
+    <div class="title">만료임박</div>
+    <div class="value">${soon}</div>
+  </div>
+`;
 }
+
+  
 
 function renderTabs() {
   document.getElementById('brandTabs').innerHTML = data.brands.map(b => {
