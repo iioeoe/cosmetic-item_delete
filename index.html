@@ -174,7 +174,8 @@
 <body>
 <div id="app">
 
-<div class="top-block">
+<!-- 기존 상단 디자인 -->  
+<!-- <div class="top-block">
   <div class="top-block-header">
     <div class="header-left">
       <h1>💄 화장품 재고 관리</h1>
@@ -186,7 +187,30 @@
     </div>
   </div>
   <div class="top-block-body" id="summaryBar"></div>
+</div> -->  
+<div class="top-block">
+  <div class="top-block-header mobile-header">
+
+    <div>
+      <h1>📦 재고관리 대시보드</h1>
+      <p>브랜드 · 상품 · 재고 현황</p>
+    </div>
+
+    <div class="quick-actions">
+      <button class="btn" onclick="openBrandAddModal()">
+        + 브랜드
+      </button>
+
+      <button class="btn white" onclick="openAddModal()">
+        + 상품
+      </button>
+    </div>
+
+  </div>
+
+  <div class="top-block-body" id="summaryBar"></div>
 </div>
+  
 
 <div class="brand-tab-wrap" id="brandTabs"></div>
 
