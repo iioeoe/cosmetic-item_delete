@@ -436,13 +436,16 @@ function renderSummary() {
     const diff = (new Date(i.expDate) - td) / 86400000;
     return diff >= 0 && diff <= 30;
   }).length;
+  /*
   document.getElementById('summaryBar').innerHTML = `
-  // <div class="sum-cell cell-stock"><div class="s-label">재고</div><div class="s-num">${inStock}</div></div>
-  // <div class="sum-cell cell-total"><div class="s-label">전체</div><div class="s-num">${total}</div></div>
-  // <div class="sum-cell cell-inuse"><div class="s-label">사용중</div><div class="s-num">${inUse}</div></div>
-  // <div class="sum-cell cell-soon"><div class="s-label">만료임박</div><div class="s-num">${soon}</div></div>`;
-  
+   <div class="sum-cell cell-stock"><div class="s-label">재고</div><div class="s-num">${inStock}</div></div>
+   <div class="sum-cell cell-total"><div class="s-label">전체</div><div class="s-num">${total}</div></div>
+   <div class="sum-cell cell-inuse"><div class="s-label">사용중</div><div class="s-num">${inUse}</div></div>
+   <div class="sum-cell cell-soon"><div class="s-label">만료임박</div><div class="s-num">${soon}</div></div>`;
+  */
+    
 // 신규 추가
+  document.getElementById('summaryBar').innerHTML = `
   <div class="dash-card stock">
     <div class="title">전체 재고</div>
     <div class="value">${inStock}</div>
