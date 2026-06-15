@@ -37,6 +37,7 @@
     background: var(--bg); position: relative;
     box-shadow: 0 0 40px rgba(0,0,0,0.13);
     display: flex; flex-direction: column; overflow-x: hidden;
+    padding-bottom: 70px;
   }
 
   .btn {
@@ -225,13 +226,19 @@
 
 /* 하단메뉴추가 */
 .bottom-nav{
-  position:sticky;
+  position:fixed;
   bottom:0;
+  left:50%;
+  transform:translateX(-50%);
+  width:100%;
+  max-width:480px;
   background:#fff;
   border-top:1px solid var(--border);
   display:flex;
   justify-content:space-around;
   padding:10px 0;
+  z-index:999;
+  box-shadow:0 -4px 12px rgba(0,0,0,.08);
 }
 
 .nav-item{
