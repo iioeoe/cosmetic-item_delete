@@ -189,12 +189,12 @@
   .brand-tab .cnt { font-size: 0.68rem; margin-left: 3px; opacity: 0.75; }
 
   .list-block {
-    margin: 8px 12px 24px; border-radius: var(--radius); overflow: hidden;
+    margin: 8px 12px 24px; border-radius: var(--radius); overflow: visible;
     border: 2px solid #FFD6EF; box-shadow: 0 1px 6px rgba(0,0,0,0.06);
     background: var(--bg); padding: 10px;
   }
   .product-block {
-    border-radius: var(--radius); overflow: hidden;
+    border-radius: var(--radius); overflow: visible;
     border: 1px solid var(--border); margin-bottom: 10px;
     box-shadow: 0 1px 6px rgba(0,0,0,0.06);
   }
@@ -224,9 +224,11 @@
   .swipe-table-wrap {
     overflow-x: auto; scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
+    width: 100%;
   }
   .swipe-table-wrap::-webkit-scrollbar { display: none; }
-  .swipe-table { min-width: 100%; width: max-content; }
+  .swipe-table { width: max-content; min-width: 100%; }
+  .purchase-item { overflow: hidden; }
 
   .item-label-row {
     background: #f8f8f8; display: grid;
@@ -234,7 +236,7 @@
     border-bottom: 1px solid var(--border);
   }
   .item-label-row span {
-    font-size: 0.60rem; font-weight: 700; color: var(--text2);
+    font-size: 0.6rem; font-weight: 700; color: var(--text2);
     padding: 4px 4px; border-right: 1px solid var(--border); text-align: center;
     white-space: nowrap;
   }
@@ -246,13 +248,13 @@
     align-items: center;
   }
   .item-value-row .cell {
-    font-size: 0.71rem; padding: 7px 4px; border-right: 1px solid var(--border);
+    font-size: 0.68rem; padding: 7px 4px; border-right: 1px solid var(--border);
     color: var(--text); text-align: center; word-break: keep-all; min-width: 0;
   }
   .item-value-row .cell:last-child { border-right: none; }
   .item-value-row .cell.price { font-weight: 700; }
   .item-value-row .cell.actions { display: flex; flex-direction: column; gap: 3px; align-items: center; padding: 5px 3px; }
-  .cell-extra { color: var(--text2); font-size: 0.68rem; }
+  .cell-extra { color: var(--text2); font-size: 0.6rem; }
 
   .stag { display: inline-block; font-size: 0.63rem; font-weight: 700; border-radius: 6px; padding: 2px 5px; }
   .stag.in-use    { background: #d0e7f2; color: #7ab6d0; }
@@ -405,8 +407,6 @@
       <div class="h-label">전체 재고 수량</div>
       <div class="h-total" id="heroTotal">0 <span>개</span></div>
       <div style="display:flex;gap:8px;flex-wrap:wrap;" id="heroMeta"></div>
-    </div>
-          <button class="btn sm ghost" onclick="syncFromCloud(true)">↻ 새로고침</button>
     </div>
     <div class="sync-bar">
       <div class="sync-status">
