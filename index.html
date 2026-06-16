@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>💄 화장품 재고 관리</title>
+<title> 화장품 재고 관리</title>
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -420,7 +420,7 @@
     font-size: 0.68rem; gap: 3px; color: #aaa; cursor: pointer;
     padding: 0 10px; transition: color 0.15s;
   }
-  .nav-item .nav-icon { font-size: 1.2rem; line-height: 1; }
+  .nav-item .nav-icon { font-size: 1rem; line-height: 1; }
   .nav-item.active { color: var(--accent); font-weight: 700; }
 
   /* ══════════════════════════════
@@ -705,7 +705,7 @@ let editBrandIdx = null;
 // ══════════════════════════════
 function switchTab(name, el) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.').forEach(n => n.classList.remove('active'));
   document.getElementById('tab-' + name).classList.add('active');
   el.classList.add('active');
   if (name === 'home')    renderHome();
