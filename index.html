@@ -689,7 +689,7 @@ function loadData() {
 }
 function saveData(d) { localStorage.setItem(STORAGE_KEY, JSON.stringify(d)); }
 function getDefaultData() {
-  return { brands: ['설화수', 'SK-II', '라네즈', '기타'], items: [] };
+  return { brands: [], items: [] };
 }
 
 let data = loadData();
