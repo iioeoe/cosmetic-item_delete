@@ -1077,8 +1077,6 @@ function selectStockFilter(f) { currentStockFilter = f; renderStockTab(); }
 // 추가 / 수정 모달
 // ══════════════════════════════
 function openAddModal() {
-  document.querySelector('.bottom-nav').style.display = 'none';
-  
   editItemId = null;
   document.getElementById('addModalTitle').textContent = '🛒 구매 내역 추가';
   clearForm();
@@ -1087,8 +1085,6 @@ function openAddModal() {
   document.getElementById('addModal').classList.add('open');
 }
 function openEditModal(id) {
-  document.querySelector('.bottom-nav').style.display = 'none';
-  
   editItemId = id;
   const item = data.items.find(i => i.id === id); if (!item) return;
   document.getElementById('addModalTitle').textContent = '✏️ 내역 수정';
@@ -1125,9 +1121,7 @@ function saveItem() {
     data.items.push({id: Date.now(), brand, product, option, buyDate,
       price: price ? Number(price) : null, expDate, memo, useDate: null, status: 'in-stock'});
   }
-  saveData(data); currentProductBrand = brand; closeModal('addModal'); 
-  document.querySelector('.bottom-nav').style.display = 'flex';
-  render();
+  saveData(data); currentProductBrand = brand; closeModal('addModal'); render();
 }
 
 // ══════════════════════════════
@@ -1189,18 +1183,9 @@ function initDateInputs() {
   });
 }
 
-function closeModal(id) { document.getElementById(id).classList.remove('open'); 
-  const bottomNav = document.querySelector('.bottom-nav');
-  if(bottomNav){
-    bottomNav.style.display = 'flex';  }
-}
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 document.querySelectorAll('.modal-overlay').forEach(el => {
-  el.addEventListener('click', e => { if (e.target === el) el.classList.remove('open'); 
-const bottomNav = document.querySelector('.bottom-nav');
-      if(bottomNav){
-        bottomNav.style.display = 'flex';
-      }                                    
-});
+  el.addEventListener('click', e => { if (e.target === el) el.classList.remove('open'); });
 });
 
 initDateInputs();
