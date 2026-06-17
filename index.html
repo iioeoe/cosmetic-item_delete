@@ -1045,7 +1045,7 @@ function renderStockTab() {
           if (expD) {
             if (diff < 0)        { expBadgeClass='expired'; expBadgeText='기한만료'; expStyle='background:var(--expired-bg);color:var(--expired-text);'; }
             else if (diff <= 30) { expBadgeClass='soon';    expBadgeText=`D-${Math.ceil(diff)}`; expStyle='background:#fceccc;color:#f8c86a;'; }
-            else                 { expBadgeClass='ok';      expBadgeText=item.expDate; expStyle='background:#fceccc;color:#f8c86a;'; }
+            else                 { expBadgeClass='ok';      expBadgeText=item.expDate; expStyle='background:#fceccc;color:#f9c359;'; }  
           }
           return `<div class="stock-item">
             <div class="si-left">
