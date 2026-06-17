@@ -175,6 +175,26 @@
   .product-page-header h2 { font-size: 1rem; font-weight: 800; color: var(--text); }
   .product-page-header p  { font-size: 0.7rem; color: var(--text2); margin-top: 2px; }
 
+  /* 브랜드 추가 / 상품 추가 빠른 버튼 */
+  .quick-add-row {
+    margin: 10px 12px 0; display: flex; gap: 8px;
+  }
+  .quick-add-btn {
+    flex: 1; justify-content: center; padding: 13px 10px;
+    font-size: 0.82rem; border-radius: 10px;
+  }
+
+  /* 브랜드 관리 리스트 (모달 내부) */
+  .brand-manage-list-item {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 12px; border-bottom: 1px solid #f5eded; background: #fff;
+  }
+  .brand-manage-list-item:last-child { border-bottom: none; }
+  .brand-manage-list-item .bml-name { font-size: 0.85rem; font-weight: 800; color: var(--text); }
+  .brand-manage-list-item .bml-meta { font-size: 0.65rem; color: var(--text2); margin-top: 2px; }
+  .brand-manage-list-item .bml-actions { display: flex; gap: 4px; }
+  .brand-manage-empty { padding: 18px; text-align: center; color: var(--text2); font-size: 0.8rem; }
+
   .brand-tab-wrap {
     margin: 10px 12px 0; display: flex; gap: 6px;
     overflow-x: auto; scrollbar-width: none; padding-bottom: 2px;
@@ -319,6 +339,55 @@
 
   .sort-label { margin: 8px 12px 0; font-size: 0.68rem; color: var(--text2); display: flex; align-items: center; gap: 4px; }
 
+  /* ══════════════════════════════
+     리포트 탭
+  ══════════════════════════════ */
+  .report-page-header {
+    margin: 12px 12px 0; background: #FDEAEA; border: 2px solid #FFD6EF;
+    border-radius: var(--radius); padding: 12px 14px;
+    display: flex; align-items: center; justify-content: space-between;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  }
+  .report-page-header h2 { font-size: 1rem; font-weight: 800; color: var(--text); }
+  .report-page-header p  { font-size: 0.7rem; color: var(--text2); margin-top: 2px; }
+
+  .report-action-row {
+    margin: 10px 12px 0; display: flex; flex-direction: column; align-items: center; gap: 6px;
+  }
+  .report-action-row .btn { width: 100%; justify-content: center; padding: 12px; font-size: 0.88rem; }
+  .report-timestamp { font-size: 0.68rem; color: var(--text2); }
+
+  .report-empty {
+    margin: 24px 12px; text-align: center; color: var(--text2); font-size: 0.85rem; padding: 30px 16px;
+  }
+
+  .report-card {
+    margin: 10px 12px; background: #fff; border-radius: var(--radius);
+    border: 2px solid #FFD6EF; overflow: hidden; box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  }
+  .report-card-header {
+    background: #FDEAEA; padding: 10px 14px; border-bottom: 1.5px solid #FFD6EF;
+  }
+  .report-card-header .rc-brand { font-size: 0.68rem; color: var(--text2); font-weight: 700; }
+  .report-card-header .rc-name  { font-size: 0.92rem; font-weight: 800; color: var(--text); margin-top: 1px; }
+  .report-card-body { padding: 12px 14px; }
+  .report-stat-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 5px 0; font-size: 0.78rem; color: var(--text);
+  }
+  .report-stat-row .rs-label { color: var(--text2); }
+  .report-stat-row .rs-value { font-weight: 800; }
+  .report-verdict {
+    margin-top: 10px; padding: 9px 12px; border-radius: 8px;
+    font-size: 0.8rem; font-weight: 700; text-align: center;
+  }
+  .report-verdict.buy      { background: #fde8ed; color: #c0606a; }
+  .report-verdict.enough   { background: #eaf5ea; color: #5a9a5a; }
+  .report-verdict.watch    { background: #fceccc; color: #e6a800; }
+  .report-card-insufficient {
+    font-size: 0.72rem; color: var(--text2); text-align: center; padding: 6px 0;
+  }
+
   /* 하단 네비 */
   .bottom-nav {
     position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
@@ -404,29 +473,17 @@
     <div id="homeBrandCards"></div>
   </div>
 
-  <!-- 브랜드 탭 -->
-  <div class="tab-panel" id="tab-brand">
-    <div class="brand-page-header">
-      <div>
-        <h2>🏷️ 브랜드 관리</h2>
-        <p>브랜드를 추가하고 재고를 확인하세요</p>
-      </div>
-      <button class="btn sm" onclick="openBrandAddModal()">＋ 추가</button>
-    </div>
-    <div class="brand-search-row">
-      <input type="text" id="brandSearchInput" placeholder="🔍  브랜드 검색" oninput="renderBrandPage()">
-    </div>
-    <div class="brand-list-block" id="brandPageList"></div>
-  </div>
-
-  <!-- 상품 탭 -->
+  <!-- 상품 탭 (브랜드 관리 통합) -->
   <div class="tab-panel" id="tab-product">
     <div class="product-page-header">
       <div>
         <h2>📦 상품 관리</h2>
-        <p>브랜드별 구매 내역을 관리하세요</p>
+        <p>브랜드와 구매 내역을 관리하세요</p>
       </div>
-      <button class="btn sm" onclick="openAddModal()">＋ 추가</button>
+    </div>
+    <div class="quick-add-row">
+      <button class="btn quick-add-btn ghost" onclick="openBrandAddModal()">🏷️ ＋ 브랜드 추가</button>
+      <button class="btn quick-add-btn" onclick="openAddModal()">📦 ＋ 상품 추가</button>
     </div>
     <div class="brand-tab-wrap" id="productBrandTabs"></div>
     <div class="list-block">
@@ -439,12 +496,26 @@
     <div class="stock-page-header">
       <div>
         <h2>📊 재고 현황</h2>
-        <p>상태별 · 만료일 기준 정렬</p>
+        <p>브랜드 · 상품 · 옵션별 정렬</p>
       </div>
     </div>
     <div class="status-filter-wrap" id="statusFilterWrap"></div>
-    <div class="sort-label">📅 만료일 기준 오름차순</div>
     <div class="stock-list-block" id="stockList"></div>
+  </div>
+
+  <!-- 리포트 탭 -->
+  <div class="tab-panel" id="tab-report">
+    <div class="report-page-header">
+      <div>
+        <h2>🧾 소비 리포트</h2>
+        <p>사용 패턴 기반 구매 추천</p>
+      </div>
+    </div>
+    <div class="report-action-row">
+      <button class="btn" onclick="runReportAnalysis()">📊 구매 판단 분석하기</button>
+      <span class="report-timestamp" id="reportTimestamp"></span>
+    </div>
+    <div id="reportResult"></div>
   </div>
 
   <!-- 하단 네비 -->
@@ -452,14 +523,14 @@
     <div class="nav-item active" onclick="switchTab('home', this)">
       <span class="nav-icon">🏠</span><span>홈</span>
     </div>
-    <div class="nav-item" onclick="switchTab('brand', this)">
-      <span class="nav-icon">🏷️</span><span>브랜드</span>
-    </div>
     <div class="nav-item" onclick="switchTab('product', this)">
       <span class="nav-icon">📦</span><span>상품</span>
     </div>
     <div class="nav-item" onclick="switchTab('stock', this)">
       <span class="nav-icon">📊</span><span>재고</span>
+    </div>
+    <div class="nav-item" onclick="switchTab('report', this)">
+      <span class="nav-icon">🧾</span><span>리포트</span>
     </div>
   </div>
 </div>
@@ -535,9 +606,17 @@
         </div>
       </div>
     </div>
-    <div class="modal-actions">
+    <div class="modal-actions" style="margin-top:0;margin-bottom:14px;">
       <button class="btn white" onclick="closeModal('brandAddModal')">취소</button>
       <button class="btn" onclick="saveBrand()">저장</button>
+    </div>
+    <div class="form-block">
+      <div class="form-block-title">등록된 브랜드</div>
+      <div class="form-block-body" style="padding:0;">
+        <input type="text" id="brandSearchInput" placeholder="🔍  브랜드 검색" oninput="renderBrandManageList()"
+          style="width:100%;padding:9px 12px;border:none;border-bottom:1.5px solid var(--border);font-family:'Nanum Gothic',sans-serif;font-size:0.82rem;outline:none;">
+        <div id="brandManageList"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -703,14 +782,13 @@ function switchTab(name, el) {
   document.getElementById('tab-' + name).classList.add('active');
   el.classList.add('active');
   if (name === 'home')    renderHome();
-  if (name === 'brand')   renderBrandPage();
   if (name === 'product') renderProductTab();
   if (name === 'stock')   renderStockTab();
+  if (name === 'report')  renderReportTimestamp();
 }
 
 function render() {
   renderHome();
-  renderBrandPage();
   renderProductTab();
   renderStockTab();
 }
@@ -804,29 +882,27 @@ function renderHome() {
 }
 
 // ══════════════════════════════
-// 브랜드 탭
+// 브랜드 관리 (모달 내부)
 // ══════════════════════════════
-function renderBrandPage() {
+function renderBrandManageList() {
+  const listEl = document.getElementById('brandManageList');
+  if (!listEl) return;
   const query = (document.getElementById('brandSearchInput')?.value || '').trim().toLowerCase();
   const filtered = data.brands.filter(b => !query || b.toLowerCase().includes(query));
   if (!filtered.length) {
-    document.getElementById('brandPageList').innerHTML = `<div class="brand-empty">검색 결과가 없습니다.</div>`;
+    listEl.innerHTML = `<div class="brand-manage-empty">등록된 브랜드가 없습니다.</div>`;
     return;
   }
-  document.getElementById('brandPageList').innerHTML = filtered.map(b => {
+  listEl.innerHTML = filtered.map(b => {
     const realIdx = data.brands.indexOf(b);
     const bItems  = data.items.filter(i => i.brand === b);
     const bStock  = bItems.filter(i => i.status === 'in-stock').length;
     const bInUse  = bItems.filter(i => i.status === 'in-use').length;
     const bTotal  = bItems.length;
-    return `<div class="brand-list-item">
-      <div class="bli-left">
-        <div class="bli-name">${b}</div>
-        <div class="bli-meta">
-          <span>재고 <b style="color:var(--accent)">${bStock + bInUse}개</b></span>
-          <span>상품 ${bTotal}개</span>
-          ${bInUse > 0 ? `<span style="color:#7ab6d0;font-weight:700;">사용중 ${bInUse}</span>` : ''}
-        </div>
+    return `<div class="brand-manage-list-item">
+      <div>
+        <div class="bml-name">${b}</div>
+        <div class="bml-meta">재고 ${bStock + bInUse}개 · 사용중 ${bInUse}개 · 상품 ${bTotal}개</div>
       </div>
       <div class="bli-actions">
         <button class="icon-btn" onclick="openBrandEditModal(${realIdx})">✏️</button>
@@ -840,6 +916,8 @@ function openBrandAddModal() {
   editBrandIdx = null;
   document.getElementById('brandAddModalTitle').textContent = '🏷️ 브랜드 추가';
   document.getElementById('newBrandInput').value = '';
+  if (document.getElementById('brandSearchInput')) document.getElementById('brandSearchInput').value = '';
+  renderBrandManageList();
   document.getElementById('brandAddModal').classList.add('open');
 }
 function openBrandEditModal(idx) {
@@ -860,7 +938,12 @@ function saveBrand() {
     if (data.brands.includes(v)) { alert('이미 있는 브랜드입니다.'); return; }
     data.brands.push(v);
   }
-  saveData(data); closeModal('brandAddModal'); render();
+  saveData(data);
+  editBrandIdx = null;
+  document.getElementById('brandAddModalTitle').textContent = '🏷️ 브랜드 추가';
+  document.getElementById('newBrandInput').value = '';
+  renderBrandManageList();
+  render();
 }
 function deleteBrand(i) {
   const b = data.brands[i];
@@ -869,7 +952,9 @@ function deleteBrand(i) {
   }
   data.brands.splice(i, 1);
   if (currentProductBrand === b) currentProductBrand = data.brands[0] || '';
-  saveData(data); render();
+  saveData(data);
+  renderBrandManageList();
+  render();
 }
 
 // ══════════════════════════════
@@ -1203,6 +1288,117 @@ function closeModal(id) { document.getElementById(id).classList.remove('open'); 
 document.querySelectorAll('.modal-overlay').forEach(el => {
   el.addEventListener('click', e => { if (e.target === el) el.classList.remove('open'); });
 });
+
+// ══════════════════════════════
+// 리포트 탭 - 소비 분석
+// ══════════════════════════════
+let lastReportTime = null;
+
+function renderReportTimestamp() {
+  const el = document.getElementById('reportTimestamp');
+  if (!el) return;
+  el.textContent = lastReportTime ? `마지막 분석: ${lastReportTime}` : '';
+}
+
+function runReportAnalysis() {
+  const td = today();
+  // 브랜드+상품명+옵션 단위로 그룹핑
+  const key = it => `${it.brand}|||${it.product}|||${it.option || ''}`;
+  const groups = {};
+  data.items.forEach(it => {
+    const k = key(it);
+    if (!groups[k]) groups[k] = { brand: it.brand, product: it.product, option: it.option || '', items: [] };
+    groups[k].items.push(it);
+  });
+
+  const results = Object.values(groups).map(g => {
+    // 완료된 항목들의 사용기간(개봉일~완료일) 계산
+    const usageDurations = g.items
+      .filter(it => it.status === 'used' && it.useDate && it.doneDate)
+      .map(it => Math.round((new Date(it.doneDate) - new Date(it.useDate)) / 86400000))
+      .filter(d => d > 0);
+
+    const inStockCnt = g.items.filter(it => it.status === 'in-stock').length;
+    const inUseItem   = g.items.find(it => it.status === 'in-use');
+
+    if (usageDurations.length < 2) {
+      return {
+        ...g,
+        insufficient: true,
+        sampleCount: usageDurations.length
+      };
+    }
+
+    const avgDays = Math.round(usageDurations.reduce((a,b) => a+b, 0) / usageDurations.length);
+
+    // 사용중 제품의 남은 예상 일수
+    let remainingFromInUse = 0;
+    if (inUseItem && inUseItem.useDate) {
+      const usedSoFar = Math.round((td - new Date(inUseItem.useDate)) / 86400000);
+      remainingFromInUse = Math.max(0, avgDays - usedSoFar);
+    }
+
+    const totalStockDays = inStockCnt * avgDays + remainingFromInUse;
+
+    // 판단 기준: 90일 이하면 구매추천, 90~150일 사이는 관찰, 150일 이상은 충분
+    let verdict, verdictClass, recommendQty = 0;
+    if (totalStockDays <= 90) {
+      recommendQty = Math.max(1, Math.ceil((150 - totalStockDays) / avgDays));
+      verdict = `세일시 ${recommendQty}개 구매 추천`;
+      verdictClass = 'buy';
+    } else if (totalStockDays <= 150) {
+      verdict = '여유 있음 · 필요시 1개 구매 고려';
+      verdictClass = 'watch';
+    } else {
+      verdict = '충분함 (구매 불필요)';
+      verdictClass = 'enough';
+    }
+
+    return {
+      ...g, insufficient: false, avgDays, inStockCnt, totalStockDays, verdict, verdictClass, recommendQty
+    };
+  });
+
+  // 정렬: 분석 가능한 것 먼저, 재고일수 적은 순
+  results.sort((a, b) => {
+    if (a.insufficient !== b.insufficient) return a.insufficient ? 1 : -1;
+    if (a.insufficient) return 0;
+    return a.totalStockDays - b.totalStockDays;
+  });
+
+  const el = document.getElementById('reportResult');
+  if (!results.length) {
+    el.innerHTML = `<div class="report-empty">📭 분석할 상품 데이터가 없습니다.<br>상품을 등록하고 사용 기록을 쌓아보세요.</div>`;
+  } else {
+    el.innerHTML = results.map(r => {
+      const label = r.option ? `${r.product} · ${r.option}` : r.product;
+      if (r.insufficient) {
+        return `<div class="report-card">
+          <div class="report-card-header">
+            <div class="rc-brand">${r.brand}</div>
+            <div class="rc-name">${label}</div>
+          </div>
+          <div class="report-card-insufficient">📊 데이터 부족 (완료 기록 ${r.sampleCount}개 / 최소 2개 필요)</div>
+        </div>`;
+      }
+      return `<div class="report-card">
+        <div class="report-card-header">
+          <div class="rc-brand">${r.brand}</div>
+          <div class="rc-name">${label}</div>
+        </div>
+        <div class="report-card-body">
+          <div class="report-stat-row"><span class="rs-label">평균 사용기간</span><span class="rs-value">${r.avgDays}일</span></div>
+          <div class="report-stat-row"><span class="rs-label">현재 미개봉</span><span class="rs-value">${r.inStockCnt}개</span></div>
+          <div class="report-stat-row"><span class="rs-label">예상 재고 소진까지</span><span class="rs-value">약 ${r.totalStockDays}일</span></div>
+          <div class="report-verdict ${r.verdictClass}">${r.verdict}</div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  lastReportTime = new Date().toLocaleString('ko-KR', {month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit'});
+  renderReportTimestamp();
+}
 
 initDateInputs();
 render();
