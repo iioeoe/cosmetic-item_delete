@@ -189,12 +189,12 @@
   .brand-tab .cnt { font-size: 0.68rem; margin-left: 3px; opacity: 0.75; }
 
   .list-block {
-    margin: 8px 12px 24px; border-radius: var(--radius); overflow: visible;
+    margin: 8px 12px 24px; border-radius: var(--radius); overflow: hidden;
     border: 2px solid #FFD6EF; box-shadow: 0 1px 6px rgba(0,0,0,0.06);
     background: var(--bg); padding: 10px;
   }
   .product-block {
-    border-radius: var(--radius); overflow: visible;
+    border-radius: var(--radius); overflow: hidden;
     border: 1px solid var(--border); margin-bottom: 10px;
     box-shadow: 0 1px 6px rgba(0,0,0,0.06);
   }
@@ -220,41 +220,25 @@
   }
   .option-header::before { content: '•'; font-size: 0.9rem; }
 
-  /* 스와이프 테이블 */
-  .swipe-table-wrap {
-    overflow-x: auto; scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-    width: 100%;
-  }
-  .swipe-table-wrap::-webkit-scrollbar { display: none; }
-  .swipe-table { width: max-content; min-width: 100%; }
-  .purchase-item { overflow: hidden; }
-
   .item-label-row {
     background: #f8f8f8; display: grid;
-    grid-template-columns: 72px 80px 60px 1fr 56px 72px 84px;
+    grid-template-columns: 85px 1fr 1fr 68px;
     border-bottom: 1px solid var(--border);
   }
   .item-label-row span {
-    font-size: 0.6rem; font-weight: 700; color: var(--text2);
-    padding: 4px 4px; border-right: 1px solid var(--border); text-align: center;
-    white-space: nowrap;
+    font-size: 0.63rem; font-weight: 700; color: var(--text2);
+    padding: 4px 6px; border-right: 1px solid var(--border); text-align: center;
   }
   .item-label-row span:last-child { border-right: none; }
 
-  .item-value-row {
-    display: grid;
-    grid-template-columns: 72px 80px 60px 1fr 56px 72px 84px;
-    align-items: center;
-  }
+  .item-value-row { display: grid; grid-template-columns: 85px 1fr 1fr 68px; align-items: center; }
   .item-value-row .cell {
-    font-size: 0.68rem; padding: 7px 4px; border-right: 1px solid var(--border);
+    font-size: 0.6rem; padding: 7px 6px; border-right: 1px solid var(--border);
     color: var(--text); text-align: center; word-break: keep-all; min-width: 0;
   }
   .item-value-row .cell:last-child { border-right: none; }
   .item-value-row .cell.price { font-weight: 700; }
-  .item-value-row .cell.actions { display: flex; flex-direction: column; gap: 3px; align-items: center; padding: 5px 3px; }
-  .cell-extra { color: var(--text2); font-size: 0.6rem; }
+  .item-value-row .cell.actions { display: flex; flex-direction: column; gap: 3px; align-items: center; padding: 5px 4px; }
 
   .stag { display: inline-block; font-size: 0.63rem; font-weight: 700; border-radius: 6px; padding: 2px 5px; }
   .stag.in-use    { background: #d0e7f2; color: #7ab6d0; }
@@ -942,20 +926,12 @@ function renderProductPanel() {
         let actionBtn = '';
         if (item.status === 'in-stock') actionBtn = `<button class="open-btn" onclick="openUseModal(${item.id})">개봉</button>`;
         else if (item.status === 'in-use') actionBtn = `<button class="done-btn" onclick="openDoneModal(${item.id})">완료</button>`;
-        const openDateCell = item.useDate ? item.useDate : '<span style="color:#ccc">-</span>';
-        const expDateCell  = item.expDate  ? item.expDate  : '<span style="color:#ccc">-</span>';
-        const memoCell     = item.memo     ? item.memo     : '<span style="color:#ccc">-</span>';
         return `<div class="purchase-item">
-          <div class="swipe-table-wrap"><div class="swipe-table">
-          <div class="item-label-row">
-            <span>구매일자</span><span>구매금액</span><span>상태</span><span>메모</span><span>관리</span>
-            <span>개봉일</span><span>유효기간</span>
-          </div>
+          <div class="item-label-row"><span>구매일자</span><span>구매금액</span><span>상태</span><span>관리</span></div>
           <div class="item-value-row">
             <div class="cell">${item.buyDate}</div>
             <div class="cell price">${item.price ? Number(item.price).toLocaleString()+'원' : '-'}</div>
-            <div class="cell"><span class="stag ${item.status}">${sMap[item.status]||''}</span></div>
-            <div class="cell cell-extra">${memoCell}</div>
+            <div class="cell"><span class="stag ${item.status}">${sMap[item.status]||''}</span>${useInfo}</div>
             <div class="cell actions">
               ${actionBtn}
               <div style="display:flex;gap:2px;">
@@ -963,10 +939,8 @@ function renderProductPanel() {
                 <button class="icon-btn del" onclick="deleteItem(${item.id})">🗑️</button>
               </div>
             </div>
-            <div class="cell cell-extra">${openDateCell}</div>
-            <div class="cell cell-extra ${expClass}">${expDateCell}${expClass==='soon'?' ⚠️':expClass==='expired'?' ❌':''}</div>
           </div>
-          </div></div>
+          ${expD ? `<div class="exp-row ${expClass}">${expLabel}${item.memo?' · '+item.memo:''}</div>` : (item.memo?`<div class="exp-row">📝 ${item.memo}</div>`:'')}
         </div>`;
       }).join('');
       return optHeader + rows;
