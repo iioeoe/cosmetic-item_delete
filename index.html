@@ -4,15 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>화장품 재고 관리</title>
-  
- 
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="재고관리">
 <link rel="apple-touch-icon" href="/cosmetic-item/kitty01_icon.jpg">
 <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIu2ZlOyepe2SiCDsnqzqs6Ag6rSA66asIiwKICAic2hvcnRfbmFtZSI6ICLsnqzqs6DqtIDrpqwiLAogICJzdGFydF91cmwiOiAiL2Nvc21ldGljLWl0ZW0vIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjZmZmYWZhIiwKICAidGhlbWVfY29sb3IiOiAiI0VCQTVBNyIsCiAgImljb25zIjogWwogICAgeyJzcmMiOiAiL2Nvc21ldGljLWl0ZW0va2l0dHkwMV9pY29uLmpwZyIsICJzaXplcyI6ICIxOTJ4MTkyIiwgInR5cGUiOiAiaW1hZ2UvanBlZyJ9LAogICAgeyJzcmMiOiAiL2Nvc21ldGljLWl0ZW0va2l0dHkwMV9pY29uLmpwZyIsICJzaXplcyI6ICI1MTJ4NTEyIiwgInR5cGUiOiAiaW1hZ2UvanBlZyJ9CiAgXQp9">
-
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -65,6 +62,8 @@
   .tab-panel { display: none; }
   .tab-panel.active { display: block; }
 
+  /* 동기화 상태 바 */
+
   /* 홈 탭 */
   .home-header {
     margin: 12px 12px 0;
@@ -81,8 +80,8 @@
     margin: 10px 12px 0;
   }
   .sum-card { border-radius: 10px; overflow: hidden; text-align: center; border: 1.5px solid #FFD6EF; }
-  .sum-card .sc-label { font-size: 0.72rem; font-weight: 800; color: #fff; padding: 9px 2px; display: block; }    /* 홈탭 합계블럭 글씨높이 padding: 9px */
-  .sum-card .sc-num   { font-size: 1.4rem; font-weight: 800; padding: 13px 2px; display: block; line-height: 1; }    /* 홈탭 합계블럭 높이 padding: 13px */
+  .sum-card .sc-label { font-size: 0.72rem; font-weight: 800; color: #fff; padding: 9px 2px; display: block; }
+  .sum-card .sc-num   { font-size: 1.4rem; font-weight: 800; padding: 13px 2px; display: block; line-height: 1; }
   .sum-card.s-stock .sc-label { background: #c682b1; }
   .sum-card.s-stock .sc-num   { background: #f6d3eb; color: #c682b1; }
   .sum-card.s-total .sc-label { background: #EBA5A7; }
@@ -238,7 +237,7 @@
     color: var(--text); text-align: center; word-break: keep-all; min-width: 0;
   }
   .item-value-row .cell:last-child { border-right: none; }
-  .item-value-row .cell.price { font-size: 0.76rem; font-weight: 700; }  /* 상품탭 구매금액 */
+  .item-value-row .cell.price { font-weight: 700; }
   .item-value-row .cell.actions { display: flex; flex-direction: column; gap: 3px; align-items: center; padding: 5px 4px; }
 
   .stag { display: inline-block; font-size: 0.63rem; font-weight: 700; border-radius: 6px; padding: 2px 5px; }
@@ -984,6 +983,7 @@ function renderStockTab() {
     `<div class="status-chip ${f.key===currentStockFilter?'active':''}" onclick="selectStockFilter('${f.key}')">${f.label}</div>`
   ).join('');
   const td = today();
+
   let filtered = data.items.filter(i => {
     if (currentStockFilter === 'all')      return i.status !== 'used';
     if (currentStockFilter === 'in-stock') return i.status === 'in-stock';
@@ -995,45 +995,95 @@ function renderStockTab() {
     }
     return true;
   });
-  filtered = filtered.slice().sort((a, b) => {
-    const ae = a.expDate ? new Date(a.expDate) : new Date('9999-12-31');
-    const be = b.expDate ? new Date(b.expDate) : new Date('9999-12-31');
-    return ae - be;
-  });
+
   const el = document.getElementById('stockList');
   if (!filtered.length) {
     el.innerHTML = `<div class="brand-empty">해당하는 재고가 없습니다.</div>`;
     return;
   }
-  el.innerHTML = filtered.map(item => {
-    const expD = item.expDate ? new Date(item.expDate) : null;
-    const diff = expD ? (expD - td) / 86400000 : null;
-    let expBadgeClass = 'none', expBadgeText = '기간 없음';
-    if (expD) {
-      if (diff < 0)        { expBadgeClass='expired'; expBadgeText='기한만료'; }
-      else if (diff <= 30) { expBadgeClass='soon';    expBadgeText=`D-${Math.ceil(diff)}`; }
-      else                 { expBadgeClass='ok';      expBadgeText=item.expDate; }
-    }
-    const sMap = {'in-use':'사용중','in-stock':'미개봉','used':'사용완료'};
-    const label = item.option ? `${item.product} · ${item.option}` : item.product;
-    return `<div class="stock-item">
-      <div class="si-left">
-        <div class="si-brand">${item.brand}</div>
-        <div class="si-name">${label}</div>
-        <div class="si-meta">
-          <span class="si-status-tag ${item.status}">${sMap[item.status]||''}</span>
-          ${item.price ? `<span style="font-size:0.68rem;color:var(--text2);">${Number(item.price).toLocaleString()}원</span>` : ''}
-          ${item.memo  ? `<span style="font-size:0.65rem;color:var(--text2);">📝 ${item.memo}</span>` : ''}
+
+  const sMap = {'in-use':'사용중','in-stock':'미개봉','used':'사용완료'};
+
+  // 브랜드 → 상품명 → 옵션 순으로 그룹핑
+  const brandGroups = {};
+  data.brands.forEach(b => {
+    const brandItems = filtered.filter(i => i.brand === b);
+    if (!brandItems.length) return;
+    brandGroups[b] = {};
+    brandItems.forEach(item => {
+      if (!brandGroups[b][item.product]) brandGroups[b][item.product] = {};
+      const optKey = item.option || '';
+      if (!brandGroups[b][item.product][optKey]) brandGroups[b][item.product][optKey] = [];
+      brandGroups[b][item.product][optKey].push(item);
+    });
+  });
+
+  el.innerHTML = Object.entries(brandGroups).map(([brand, products]) => {
+    const brandTotal = filtered.filter(i => i.brand === brand).length;
+
+    const productHtml = Object.entries(products).map(([product, options]) => {
+      const productTotal = Object.values(options).flat().length;
+
+      const optionHtml = Object.entries(options).map(([option, items]) => {
+        // 옵션 헤더 (옵션 있을 때만)
+        const optHeader = option
+          ? `<div style="background:#fdf0f5;padding:4px 12px;font-size:0.7rem;font-weight:800;color:#c682b1;border-bottom:1px solid var(--border);">• ${option}</div>`
+          : '';
+
+        // 만료일 오름차순 정렬
+        const sorted = items.slice().sort((a, b) => {
+          const ae = a.expDate ? new Date(a.expDate) : new Date('9999-12-31');
+          const be = b.expDate ? new Date(b.expDate) : new Date('9999-12-31');
+          return ae - be;
+        });
+
+        const itemRows = sorted.map(item => {
+          const expD = item.expDate ? new Date(item.expDate) : null;
+          const diff = expD ? (expD - td) / 86400000 : null;
+          let expBadgeClass = 'none', expBadgeText = '기간 없음';
+          let expStyle = 'background:#f0f0f0;color:#999;';
+          if (expD) {
+            if (diff < 0)        { expBadgeClass='expired'; expBadgeText='기한만료'; expStyle='background:var(--expired-bg);color:var(--expired-text);'; }
+            else if (diff <= 30) { expBadgeClass='soon';    expBadgeText=`D-${Math.ceil(diff)}`; expStyle='background:#fceccc;color:#f8c86a;'; }
+            else                 { expBadgeClass='ok';      expBadgeText=item.expDate; expStyle='background:#eaf5ea;color:#5a9a5a;'; }
+          }
+          return `<div class="stock-item">
+            <div class="si-left">
+              <div class="si-meta">
+                <span class="si-status-tag ${item.status}">${sMap[item.status]||''}</span>
+                ${item.price ? `<span style="font-size:0.68rem;color:var(--text2);">${Number(item.price).toLocaleString()}원</span>` : ''}
+                ${item.memo  ? `<span style="font-size:0.65rem;color:var(--text2);">📝 ${item.memo}</span>` : ''}
+              </div>
+            </div>
+            <div class="si-right">
+              <span class="exp-badge" style="${expStyle}">${expBadgeText}</span>
+              <span style="font-size:0.63rem;color:var(--text2);">구매 ${item.buyDate}</span>
+              <div style="display:flex;gap:3px;margin-top:2px;">
+                <button class="icon-btn" onclick="openEditModal(${item.id})">✏️</button>
+                <button class="icon-btn del" onclick="deleteItem(${item.id})">🗑️</button>
+              </div>
+            </div>
+          </div>`;
+        }).join('');
+
+        return optHeader + itemRows;
+      }).join('');
+
+      return `<div style="border-bottom:2px solid #f5eded;">
+        <div style="background:#fff5f5;padding:7px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);">
+          <span style="font-size:0.85rem;font-weight:800;color:var(--text);">${product}</span>
+          <span class="stock-pill">${productTotal}개</span>
         </div>
+        ${optionHtml}
+      </div>`;
+    }).join('');
+
+    return `<div style="border-bottom:3px solid #FFD6EF;margin-bottom:0;">
+      <div style="background:#FDEAEA;padding:9px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1.5px solid #FFD6EF;">
+        <span style="font-size:0.92rem;font-weight:800;color:var(--text);">${brand}</span>
+        <span class="bc-pill stock">${brandTotal}개</span>
       </div>
-      <div class="si-right">
-        <span class="exp-badge ${expBadgeClass}">${expBadgeText}</span>
-        <span style="font-size:0.63rem;color:var(--text2);">구매 ${item.buyDate}</span>
-        <div style="display:flex;gap:3px;margin-top:2px;">
-          <button class="icon-btn" onclick="openEditModal(${item.id})">✏️</button>
-          <button class="icon-btn del" onclick="deleteItem(${item.id})">🗑️</button>
-        </div>
-      </div>
+      ${productHtml}
     </div>`;
   }).join('');
 }
