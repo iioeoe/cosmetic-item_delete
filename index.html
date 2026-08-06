@@ -585,7 +585,8 @@
         </div>
       </div>
     </div>
-    <div class="modal-actions">
+    <div class="modal-actions" id="addModalActions">
+      <button class="btn ghost" id="copyItemBtn" onclick="copyItem()" style="display:none;margin-right:auto;">📋 복사</button>
       <button class="btn white" onclick="closeModal('addModal')">취소</button>
       <button class="btn" onclick="saveItem()">저장</button>
     </div>
@@ -1130,7 +1131,7 @@ function renderStockTab() {
           if (expD) {
             if (diff < 0)        { expBadgeClass='expired'; expBadgeText='기한만료'; expStyle='background:var(--expired-bg);color:var(--expired-text);'; }
             else if (diff <= 30) { expBadgeClass='soon';    expBadgeText=`D-${Math.ceil(diff)}`; expStyle='background:#fceccc;color:#f8c86a;'; }
-            else                 { expBadgeClass='ok';      expBadgeText=item.expDate; expStyle='background:#fceccc;color:#f9c359;'; }  //  재고탭-유효기간 태그 (배경,글씨:노랑)
+            else                 { expBadgeClass='ok';      expBadgeText=item.expDate; expStyle='background:#eaf5ea;color:#5a9a5a;'; }
           }
           return `<div class="stock-item">
             <div class="si-left">
@@ -1181,6 +1182,7 @@ function selectStockFilter(f) { currentStockFilter = f; renderStockTab(); }
 function openAddModal() {
   editItemId = null;
   document.getElementById('addModalTitle').textContent = '🛒 구매 내역 추가';
+  document.getElementById('copyItemBtn').style.display = 'none';
   clearForm();
   document.getElementById('inp_buyDate').value = todayStr();
   populateBrandSelect();
@@ -1190,6 +1192,7 @@ function openEditModal(id) {
   editItemId = id;
   const item = data.items.find(i => i.id === id); if (!item) return;
   document.getElementById('addModalTitle').textContent = '✏️ 내역 수정';
+  document.getElementById('copyItemBtn').style.display = 'inline-flex';
   populateBrandSelect(item.brand);
   document.getElementById('inp_product').value = item.product;
   document.getElementById('inp_option').value  = item.option || '';
@@ -1198,6 +1201,25 @@ function openEditModal(id) {
   document.getElementById('inp_expDate').value = item.expDate || '';
   document.getElementById('inp_memo').value    = item.memo || '';
   document.getElementById('addModal').classList.add('open');
+}
+function copyItem() {
+  // 현재 모달 입력값 그대로 새 항목으로 복사 (구매일자만 오늘로)
+  const brand   = document.getElementById('inp_brand').value;
+  const product = document.getElementById('inp_product').value.trim();
+  const option  = document.getElementById('inp_option').value.trim();
+  const price   = document.getElementById('inp_price').value;
+  const expDate = document.getElementById('inp_expDate').value;
+  const memo    = document.getElementById('inp_memo').value.trim();
+  if (!product) { alert('상품명을 확인해 주세요.'); return; }
+  data.items.push({
+    id: Date.now(), brand, product, option,
+    buyDate: todayStr(),
+    price: price ? Number(price) : null,
+    expDate, memo, useDate: null, status: 'in-stock'
+  });
+  saveData(data);
+  closeModal('addModal');
+  render();
 }
 function populateBrandSelect(selected) {
   document.getElementById('inp_brand').innerHTML =
