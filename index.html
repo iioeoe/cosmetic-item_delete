@@ -8,14 +8,14 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="재고관리">
-<link rel="apple-touch-icon" href="/cosmetic-item/kitty01_icon.jpg">
-<link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIu2ZlOyepe2SiCDsnqzqs6Ag6rSA66asIiwKICAic2hvcnRfbmFtZSI6ICLsnqzqs6DqtIDrpqwiLAogICJzdGFydF91cmwiOiAiL2Nvc21ldGljLWl0ZW0vIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjZmZmYWZhIiwKICAidGhlbWVfY29sb3IiOiAiI0VCQTVBNyIsCiAgImljb25zIjogWwogICAgeyJzcmMiOiAiL2Nvc21ldGljLWl0ZW0va2l0dHkwMV9pY29uLmpwZyIsICJzaXplcyI6ICIxOTJ4MTkyIiwgInR5cGUiOiAiaW1hZ2UvanBlZyJ9LAogICAgeyJzcmMiOiAiL2Nvc21ldGljLWl0ZW0va2l0dHkwMV9pY29uLmpwZyIsICJzaXplcyI6ICI1MTJ4NTEyIiwgInR5cGUiOiAiaW1hZ2UvanBlZyJ9CiAgXQp9">
+<link rel="apple-touch-icon" href="/cosmetic-item_delete/kitty01_icon.jpg">
+<link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIu2ZlOyepe2SiCDsnqzqs6Ag6rSA66asIiwKICAic2hvcnRfbmFtZSI6ICLsnqzqs6DqtIDrpqwiLAogICJzdGFydF91cmwiOiAiL2Nvc21ldGljLWl0ZW1fZGVsZXRlLyIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiI2ZlZmNmOCIsCiAgInRoZW1lX2NvbG9yIjogIiNmYmM3ZDkiLAogICJpY29ucyI6IFsKICAgIHsic3JjIjogIi9jb3NtZXRpYy1pdGVtX2RlbGV0ZS9raXR0eTAxX2ljb24uanBnIiwgInNpemVzIjogIjE5MngxOTIiLCAidHlwZSI6ICJpbWFnZS9qcGVnIn0sCiAgICB7InNyYyI6ICIvY29zbWV0aWMtaXRlbV9kZWxldGUva2l0dHkwMV9pY29uLmpwZyIsICJzaXplcyI6ICI1MTJ4NTEyIiwgInR5cGUiOiAiaW1hZ2UvanBlZyJ9CiAgXQp9">
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #fefcf8;
     --app-bg: #fefcf8;
-    --card: #ffffff;
+    --card: rgba(255,255,255,0.78);
     --accent: #fbc7d9;
     --accent-dark: #fbadc8;
     --accent-light: #feebef;
@@ -110,7 +110,7 @@
   .bc-pill { font-size: 0.65rem; font-weight: 700; padding: 2px 7px; border-radius: 10px; }
   .bc-pill.stock { background: #f6d3eb; color: #c682b1; }
   .bc-pill.inuse { background: var(--in-use-bg); color: var(--in-use-text); }
-  .brand-card-body { padding: 8px 14px 10px; }
+  .brand-card-body { padding: 8px 14px 10px; background: rgba(255,255,255,0.78); }
 
   .product-row {
     display: flex; align-items: center; justify-content: space-between;
@@ -146,7 +146,7 @@
 
   .brand-list-block {
     margin: 10px 12px 0; border-radius: var(--radius); border: 2px solid #FFD6EF;
-    overflow: hidden; box-shadow: 0 1px 6px rgba(0,0,0,0.06); background: #fff;
+    overflow: hidden; box-shadow: 0 1px 6px rgba(0,0,0,0.06); background: rgba(255,255,255,0.78);
   }
   .brand-list-item {
     display: flex; align-items: center; justify-content: space-between;
@@ -229,7 +229,7 @@
   .chevron { font-size: 0.75rem; opacity: 0.8; transition: transform 0.2s; }
   .chevron.open { transform: rotate(180deg); }
 
-  .purchase-list { background: var(--card); }
+  .purchase-list { background: rgba(255,255,255,0.78); }
   .purchase-item { border-bottom: 1px solid var(--border); overflow: hidden; }
   .purchase-item:last-child { border-bottom: none; }
 
@@ -313,7 +313,7 @@
 
   .stock-list-block {
     margin: 8px 12px 24px; border-radius: var(--radius); border: 2px solid #FFD6EF;
-    overflow: hidden; box-shadow: 0 1px 6px rgba(0,0,0,0.06); background: #fff;
+    overflow: hidden; box-shadow: 0 1px 6px rgba(0,0,0,0.06); background: rgba(255,255,255,0.78);
   }
   .stock-item {
     padding: 12px 14px; border-bottom: 1px solid #f5eded;
@@ -362,7 +362,7 @@
   }
 
   .report-card {
-    margin: 10px 12px; background: #fff; border-radius: var(--radius);
+    margin: 10px 12px; background: rgba(255,255,255,0.78); border-radius: var(--radius);
     border: 2px solid #FFD6EF; overflow: hidden; box-shadow: 0 1px 6px rgba(0,0,0,0.06);
   }
   .report-card-header {
@@ -411,7 +411,7 @@
   }
   .modal-overlay.open { display: flex; }
   .modal {
-    background: var(--bg); border-radius: 16px 16px 0 0;
+    background: rgba(254,252,248,0.97); border-radius: 16px 16px 0 0;
     padding: 20px 16px 100px; width: 100%; max-width: var(--app-width);
     box-shadow: 0 -4px 30px rgba(0,0,0,0.15); overflow-y: auto; max-height: 92vh;
   }
@@ -419,7 +419,7 @@
   .modal h2 { font-size: 1rem; font-weight: 800; color: var(--text); margin-bottom: 16px; display: flex; align-items: center; gap: 6px; }
   .form-block { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); margin-bottom: 10px; }
   .form-block-title { background: var(--accent); color: #fff; font-size: 0.72rem; font-weight: 800; padding: 5px 10px; }
-  .form-block-body { background: #fff; padding: 10px; }
+  .form-block-body { background: rgba(255,255,255,0.58); padding: 10px; }
   .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   .form-group { display: flex; flex-direction: column; gap: 3px; }
   .form-group label { font-size: 0.72rem; font-weight: 700; color: var(--text2); }
